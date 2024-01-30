@@ -3,11 +3,13 @@ package net.fexcraft.mod.fsmmshop.ui;
 import java.util.ArrayList;
 
 import net.fexcraft.lib.mc.gui.GenericContainer;
+import net.fexcraft.lib.mc.utils.Print;
 import net.fexcraft.lib.mc.utils.Static;
 import net.fexcraft.mod.fsmm.data.Account;
 import net.fexcraft.mod.fsmm.data.Bank;
 import net.fexcraft.mod.fsmm.data.Manageable;
 import net.fexcraft.mod.fsmm.util.DataManager;
+import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.ShopEntity;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -107,6 +109,10 @@ public class ShopContainer extends GenericContainer {
                                 return;
                             }
                             if(tile.admin){
+                                if(FSMMShop.MAXUSEBALANCE > 0 && account.getBalance() > FSMMShop.MAXUSEBALANCE){
+                                    Print.chat(player, FSMMShop.MAXUSEBALMSG);
+                                    return;
+                                }
                                 account.modifyBalance(Manageable.Action.SUB, am * tile.price, player);
                                 while(am > 0){
                                     ItemStack stack = tile.stack.copy();
@@ -148,6 +154,10 @@ public class ShopContainer extends GenericContainer {
                             }
                             if(!tile.admin && tileacc.getBalance() < am * tile.price){
                                 sendSync("&eshop out of money");
+                                return;
+                            }
+                            if(tile.admin && FSMMShop.MAXUSEBALANCE > 0 && account.getBalance() > FSMMShop.MAXUSEBALANCE){
+                                Print.chat(player, FSMMShop.MAXUSEBALMSG);
                                 return;
                             }
                             int found = 0;
