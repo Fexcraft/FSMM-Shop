@@ -11,6 +11,8 @@ import net.fexcraft.mod.fsmm.data.Manageable;
 import net.fexcraft.mod.fsmm.util.DataManager;
 import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.ShopEntity;
+import net.fexcraft.mod.uni.world.MessageSender;
+import net.fexcraft.mod.uni.world.MessageSenderI;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -60,6 +62,7 @@ public class ShopContainer extends GenericContainer {
 
     protected void packet(Side side, NBTTagCompound packet, EntityPlayer player) {
         if(side == Side.SERVER){
+            MessageSender ms = new MessageSenderI(player);
             NBTTagCompound com;
             switch(packet.getString("cargo")){
                 case "setstack":
@@ -113,7 +116,7 @@ public class ShopContainer extends GenericContainer {
                                     Print.chat(player, FSMMShop.MAXUSEBALMSG);
                                     return;
                                 }
-                                account.modifyBalance(Manageable.Action.SUB, am * tile.price, player);
+                                account.modifyBalance(Manageable.Action.SUB, am * tile.price, ms);
                                 while(am > 0){
                                     ItemStack stack = tile.stack.copy();
                                     stack.setCount((am > stack.getCount()) ? stack.getCount() : am);
@@ -127,7 +130,7 @@ public class ShopContainer extends GenericContainer {
                                 }
                             }
                             else{
-                                this.account.getBank().processAction(Bank.Action.TRANSFER, player, this.account, am * tile.price, tileacc);
+                                this.account.getBank().processAction(Bank.Action.TRANSFER, ms, this.account, am * tile.price, tileacc);
                                 ItemStack stack = null, copy = null;
                                 for(int i = 0; i < 9 && am > 0; i++){
                                     if(tile.equal(stack = tile.stacks().get(i)) && !stack.isEmpty()){
@@ -182,7 +185,7 @@ public class ShopContainer extends GenericContainer {
                                 }
                             }
                             if(tile.admin){
-                                account.modifyBalance(Manageable.Action.ADD, am * tile.price, player);
+                                account.modifyBalance(Manageable.Action.ADD, am * tile.price, ms);
                             }
                             else{
                                 for(int i = 0; i < stacks.size(); i++){
@@ -190,7 +193,7 @@ public class ShopContainer extends GenericContainer {
                                     for(int x = 0; x < 9 && !stack.isEmpty(); x++)
                                         stack = tile.handler.insertItem(x, stacks.get(i), false);
                                 }
-                                tileacc.getBank().processAction(Bank.Action.TRANSFER, player, tileacc, am * tile.price, this.account);
+                                tileacc.getBank().processAction(Bank.Action.TRANSFER, ms, tileacc, am * tile.price, this.account);
                             }
                         }
                         tile.updateClient();
