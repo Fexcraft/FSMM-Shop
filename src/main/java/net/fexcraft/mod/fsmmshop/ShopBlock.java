@@ -2,19 +2,16 @@ package net.fexcraft.mod.fsmmshop;
 
 import com.google.common.base.Predicate;
 
-import javax.annotation.Nullable;
-
 import net.fexcraft.lib.mc.api.registry.fBlock;
 import net.fexcraft.lib.mc.utils.Static;
 import net.fexcraft.mod.fsmm.FSMM;
-import net.minecraft.block.Block;
+import net.fexcraft.mod.fsmm.local.MoneyItem;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -62,7 +59,7 @@ public class ShopBlock extends BlockContainer {
 
     public boolean func_180639_a(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if(!world.isRemote && !player.isSneaking()){
-            boolean coin = player.getHeldItemMainhand().getItem() instanceof net.fexcraft.mod.fsmm.data.MoneyItem;
+            boolean coin = player.getHeldItemMainhand().getItem() instanceof MoneyItem;
             ShopEntity tile = (ShopEntity) world.getTileEntity(pos);
             boolean sp = Static.getServer().isSinglePlayer();
             if(!coin && (tile.owner == null || tile.owner.equals(player.getGameProfile().getId()))){
