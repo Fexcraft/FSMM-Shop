@@ -128,7 +128,7 @@ public class ShopEditUI extends GenericGui<ShopContainer> {
 
     private final long format() {
         try{
-            String str = fields.get("price").getText().replace(Config.getDot(), "").replace(",", ".");
+            String str = fields.get("price").getText().replace(Config.DOT, "").replace(",", ".");
             if(str.length() == 0) return 0;
             String format = df.format(Double.parseDouble(str));
             return Long.parseLong(format.replace(",", "").replace(".", ""));
