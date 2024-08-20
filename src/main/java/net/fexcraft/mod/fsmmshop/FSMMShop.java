@@ -31,7 +31,7 @@ public class FSMMShop {
 
     @Instance("fsmmshop")
     public static FSMMShop INSTANCE;
-    public static final String VERSION = "1.0.3";
+    public static final String VERSION = "1.1.0";
     //
     public static File CFGFILE;
     public static int MAXUSEBALANCE;
