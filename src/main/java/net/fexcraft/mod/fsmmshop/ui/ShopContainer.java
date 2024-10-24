@@ -11,18 +11,15 @@ import net.fexcraft.mod.fsmm.data.Manageable;
 import net.fexcraft.mod.fsmm.util.DataManager;
 import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.ShopEntity;
-import net.fexcraft.mod.uni.world.MessageSender;
-import net.fexcraft.mod.uni.world.MessageSenderI;
-import net.minecraft.command.ICommandSender;
+import net.fexcraft.mod.uni.UniEntity;
+import net.fexcraft.mod.uni.world.EntityW;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -62,7 +59,7 @@ public class ShopContainer extends GenericContainer {
 
     protected void packet(Side side, NBTTagCompound packet, EntityPlayer player) {
         if(side == Side.SERVER){
-            MessageSender ms = new MessageSenderI(player);
+            EntityW ms = UniEntity.getEntity(player);
             NBTTagCompound com;
             switch(packet.getString("cargo")){
                 case "setstack":
