@@ -2,11 +2,18 @@ package net.fexcraft.mod.fsmmshop;
 
 import net.fexcraft.app.json.JsonHandler;
 import net.fexcraft.app.json.JsonMap;
+import net.fexcraft.lib.mc.crafting.RecipeRegistry;
 import net.fexcraft.lib.mc.registry.FCLRegistry;
 import net.fexcraft.lib.mc.render.FCLBlockModel;
 import net.fexcraft.lib.mc.render.FCLBlockModelLoader;
 import net.fexcraft.mod.fsmm.util.Command;
 import net.fexcraft.mod.fsmm.util.FSMMSubCommand;
+import net.fexcraft.mod.uni.FclRecipe;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -62,6 +69,10 @@ public class FSMMShop {
         if(event.getSide().isClient()) regtileren();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
         FSMMSubCommand.register("shop", new ShopSubCmd());
+        //
+        Ingredient ingot = Ingredient.fromStacks(new ItemStack[]{new ItemStack(Items.IRON_INGOT)});
+        Ingredient glass = Ingredient.fromStacks(new ItemStack[]{new ItemStack(Blocks.GLASS)});
+        RecipeRegistry.addShapedRecipe("fsmmshop:shop", null, new ItemStack((Block) ShopBlock.INST), 3, 3, new Ingredient[]{Ingredient.EMPTY, ingot, Ingredient.EMPTY, ingot, glass, ingot, ingot, ingot, ingot});
     }
 
     @SideOnly(Side.CLIENT)
