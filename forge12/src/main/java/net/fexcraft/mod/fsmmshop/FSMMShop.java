@@ -6,16 +6,13 @@ import net.fexcraft.lib.mc.crafting.RecipeRegistry;
 import net.fexcraft.lib.mc.registry.FCLRegistry;
 import net.fexcraft.lib.mc.render.FCLBlockModel;
 import net.fexcraft.lib.mc.render.FCLBlockModelLoader;
-import net.fexcraft.mod.fsmm.util.Command;
 import net.fexcraft.mod.fsmm.util.FSMMSubCommand;
-import net.fexcraft.mod.uni.FclRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -38,11 +35,9 @@ public class FSMMShop {
 
     @Instance("fsmmshop")
     public static FSMMShop INSTANCE;
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "2.0";
     //
-    public static File CFGFILE;
-    public static int MAXUSEBALANCE;
-    public static String MAXUSEBALMSG;
+    public static FSConfig CONFIG;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) throws InstantiationException, IllegalAccessException {
@@ -50,18 +45,7 @@ public class FSMMShop {
         if(event.getSide().isClient()){
             FCLBlockModelLoader.addBlockModel(new ResourceLocation("fsmmshop:models/block/shop"), ((Class<FCLBlockModel>)FCLRegistry.getModel("fsmmshop:models/block/shop")).newInstance());
         }
-        CFGFILE = new File(event.getSuggestedConfigurationFile().getParentFile(), "fsmm_shop.json");
-        if(!CFGFILE.exists()){
-            JsonMap map = new JsonMap();
-            map.add("max-use-balance", MAXUSEBALANCE = 0);
-            map.add("max-use-balance-msg", MAXUSEBALMSG = "&eYour balance is too high to use admin shops.");
-            JsonHandler.print(CFGFILE, map, JsonHandler.PrintOption.DEFAULT);
-        }
-        else{
-            JsonMap map = JsonHandler.parse(CFGFILE);
-            MAXUSEBALANCE = map.getInteger("max-use-balance", 0);
-            MAXUSEBALMSG = map.getString("max-use-balance-msg", "&eYour balance is too high to use admin shops.");
-        }
+        CONFIG = new FSConfig(new File(event.getSuggestedConfigurationFile().getParentFile(), "fsmm-shop.json"));
     }
 
     @EventHandler
