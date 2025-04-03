@@ -22,17 +22,9 @@ public class ShopSubCmd implements FSMMSubCommand {
             Print.chat(sender, "&cNo Permission.");
             return;
         }
-        if(args.length > 1 && args[1].equals("max-use-balance")){
-            if(args.length < 3){
-		        Print.chat(sender, "&cMissing Argument.");
-            }
-            else{
-                FSMMShop.MAXUSEBALANCE = Integer.parseInt(args[2]);
-                JsonMap map = JsonHandler.parse(FSMMShop.CFGFILE);
-                map.add("max-use-balance", FSMMShop.MAXUSEBALANCE);
-                JsonHandler.print(FSMMShop.CFGFILE, map, JsonHandler.PrintOption.DEFAULT);
-		        Print.chat(sender, "&aValue Updated.");
-            }
+        if(args.length > 1 && args[1].equals("reload")){
+            FSMMShop.CONFIG.reload();
+            Print.chat(sender, "&aConfig reloaded.");
         }
 		else Print.chat(sender, "&cUnknown Argument. Try &7/fsmm help");
     }
@@ -40,7 +32,7 @@ public class ShopSubCmd implements FSMMSubCommand {
     @Override
 	public void printHelp(ICommandSender sender){
         Print.chat(sender, "&eShop commands:");
-        Print.chat(sender, "&7/fsmm shop max-use-balance <value>");
+        Print.chat(sender, "&7/fsmm shop reload");
     }
 
     @Override
