@@ -16,6 +16,19 @@ version = '1.1.1'
 group = 'net.fexcraft.mod.fsmmshop'
 archivesBaseName = 'FSMM-Shop'
 
+sourceSets {
+    main {
+        java {
+            srcDirs += 'src/main/java'
+            srcDirs += '../common/java'
+        }
+        resources {
+            srcDirs += 'src/main/resources'
+            srcDirs += '../common/resources'
+        }
+    }
+}
+
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
