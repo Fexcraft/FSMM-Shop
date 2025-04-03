@@ -9,6 +9,7 @@ import net.fexcraft.mod.fsmm.data.Account;
 import net.fexcraft.mod.fsmm.data.Bank;
 import net.fexcraft.mod.fsmm.data.Manageable;
 import net.fexcraft.mod.fsmm.util.DataManager;
+import net.fexcraft.mod.fsmmshop.FSConfig;
 import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.ShopEntity;
 import net.fexcraft.mod.uni.UniEntity;
@@ -109,8 +110,8 @@ public class ShopContainer extends GenericContainer {
                                 return;
                             }
                             if(tile.admin){
-                                if(FSMMShop.MAXUSEBALANCE > 0 && account.getBalance() > FSMMShop.MAXUSEBALANCE){
-                                    Print.chat(player, FSMMShop.MAXUSEBALMSG);
+                                if(FSConfig.MAXUSEBALANCE > 0 && account.getBalance() > FSConfig.MAXUSEBALANCE){
+                                    Print.chat(player, FSConfig.MAXUSEBALMSG);
                                     return;
                                 }
                                 account.modifyBalance(Manageable.Action.SUB, am * tile.price, ms);
@@ -156,8 +157,8 @@ public class ShopContainer extends GenericContainer {
                                 sendSync("&eshop out of money");
                                 return;
                             }
-                            if(tile.admin && FSMMShop.MAXUSEBALANCE > 0 && account.getBalance() > FSMMShop.MAXUSEBALANCE){
-                                Print.chat(player, FSMMShop.MAXUSEBALMSG);
+                            if(tile.admin && FSConfig.MAXUSEBALANCE > 0 && account.getBalance() > FSConfig.MAXUSEBALANCE){
+                                Print.chat(player, FSConfig.MAXUSEBALMSG);
                                 return;
                             }
                             int found = 0;
