@@ -9,6 +9,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -34,7 +35,7 @@ public class ShopViewUI extends GenericGui<ShopContainer> {
         texts.put("amount", (new GenericGui.BasicText(guiLeft + 33, guiTop + 22, 64, Integer.valueOf(MapColor.SNOW.colorValue), "...")).autoscale().hoverable(true));
         texts.put("price", (new GenericGui.BasicText(guiLeft + 103, guiTop + 22, 64, Integer.valueOf(MapColor.SNOW.colorValue), "...")).autoscale().hoverable(true));
         texts.put("balance", (new GenericGui.BasicText(guiLeft + 9, guiTop + 50, 158, Integer.valueOf(MapColor.SNOW.colorValue), "...")).autoscale().hoverable(true));
-        String sb = container.tile.sell ? " Buy" : " Sell";
+        String sb = container.tile.shop.sell ? " Buy" : " Sell";
         texts.put("act", (new GenericGui.BasicText(guiLeft + 33, guiTop + 34, 29, Integer.valueOf(MapColor.SNOW.colorValue), sb)).autoscale().hoverable(true));
         for(int i = 0; i < 8; i++){
             final int j = i, u = (i == 0) ? 31 : (51 + i * 15);
@@ -58,37 +59,37 @@ public class ShopViewUI extends GenericGui<ShopContainer> {
         if(container.msg != null){
             texts.get("title").string = Formatter.format(container.msg);
         }
-        else if(container.tile.admin){
+        else if(container.tile.shop.admin){
             texts.get("title").string = "Admin Shop";
         }
         else{
-            texts.get("title").string = (container.tile.owner == null) ? "New Shop" : (container.name + "'s Shop");
+            texts.get("title").string = (container.tile.shop.owner == null) ? "New Shop" : (container.name + "'s Shop");
         }
-        if(container.tile.admin){
+        if(container.tile.shop.admin){
             texts.get("amount").string = "infinite stock";
         }
-        else if(container.tile.sell){
-            texts.get("amount").string = container.tile.stored() + " in stock";
+        else if(container.tile.shop.sell){
+            texts.get("amount").string = container.tile.shop.stored() + " in stock";
         }
         else{
-            int l = container.tile.limit();
-            texts.get("amount").string = (l - container.tile.stored()) + " of " + l + " free";
+            int l = container.tile.shop.limit();
+            texts.get("amount").string = (l - container.tile.shop.stored()) + " of " + l + " free";
         }
-        texts.get("price").string = Config.getWorthAsString(container.tile.price);
+        texts.get("price").string = Config.getWorthAsString(container.tile.shop.price);
         texts.get("balance").string = "Your Balance: " + Config.getWorthAsString(container.balance);
     }
 
     protected void drawlast(float pticks, int mouseX, int mouseY){
         RenderHelper.enableGUIStandardItemLighting();
-        itemRender.renderItemAndEffectIntoGUI(container.tile.stack, guiLeft + 10, guiTop + 24);
+        itemRender.renderItemAndEffectIntoGUI(container.tile.shop.stack.local(), guiLeft + 10, guiTop + 24);
         RenderHelper.disableStandardItemLighting();
         for(GenericGui.BasicText text : texts.values()){
             if(text.hovered) ttip.add(text.string);
         }
         if(mouseX >= guiLeft + 10 && mouseX <= guiLeft + 26 && mouseY >= guiTop + 24 && mouseY <= guiTop + 40) {
-            ttip.add(Formatter.format("&9" + container.tile.stack.getDisplayName()));
-            container.tile.stack.getItem().addInformation(container.tile.stack, player.world, ttip, (ITooltipFlag)ITooltipFlag.TooltipFlags.ADVANCED);
-            ttip.add(Formatter.format("&8" + container.tile.stack.getItem().getRegistryName() + " | " + container.tile.stack.getMetadata()));
+            ttip.add(Formatter.format("&9" + container.tile.shop.stack.getName()));
+            ((ItemStack)container.tile.shop.stack.local()).getItem().addInformation(container.tile.shop.stack.local(), player.world, ttip, (ITooltipFlag)ITooltipFlag.TooltipFlags.ADVANCED);
+            ttip.add(Formatter.format("&8" + container.tile.shop.stack.getID() + " | " + container.tile.shop.stack.damage()));
         }
         if(ttip.size() > 0) drawHoveringText(ttip, mouseX, mouseY);
         ttip.clear();
