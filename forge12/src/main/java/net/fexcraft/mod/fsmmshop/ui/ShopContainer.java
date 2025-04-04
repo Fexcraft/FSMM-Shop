@@ -13,6 +13,8 @@ import net.fexcraft.mod.fsmmshop.FSConfig;
 import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.ShopEntity;
 import net.fexcraft.mod.uni.UniEntity;
+import net.fexcraft.mod.uni.inv.StackWrapper;
+import net.fexcraft.mod.uni.inv.UniStack;
 import net.fexcraft.mod.uni.world.EntityW;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -40,7 +43,7 @@ public class ShopContainer extends GenericContainer {
         tile = (ShopEntity)world.getTileEntity(new BlockPos(x, y, z));
         if(id == 0){
             for (int i = 0; i < 9; i++){
-                addSlotToContainer(new SlotItemHandler(tile.handler, i, 8 + i * 18, 46));
+                addSlotToContainer(new SlotItemHandler(tile.shop.inventory.cast(), i, 8 + i * 18, 46));
             }
         }
         int y0 = (id == 0) ? 70 : 62, y1 = (id == 0) ? 126 : 118;
@@ -52,10 +55,10 @@ public class ShopContainer extends GenericContainer {
         for(int col = 0; col < 9; col++){
             addSlotToContainer(new Slot(player.inventory, col, 8 + col * 18, y1));
         }
-        if(!world.isRemote && tile.owner != null) name = Static.getPlayerNameByUUID(tile.owner);
+        if(!world.isRemote && tile.shop.owner != null) name = Static.getPlayerNameByUUID(tile.shop.owner);
         if(world.isRemote) return;
         account = DataManager.getAccount("player:" + player.getGameProfile().getId().toString(), false, true);
-        if(tile.owner != null) tileacc = DataManager.getAccount("player:" + tile.owner, true, true);
+        if(tile.shop.owner != null) tileacc = DataManager.getAccount("player:" + tile.shop.owner, true, true);
     }
 
     protected void packet(Side side, NBTTagCompound packet, EntityPlayer player) {
@@ -64,30 +67,30 @@ public class ShopContainer extends GenericContainer {
             NBTTagCompound com;
             switch(packet.getString("cargo")){
                 case "setstack":
-                    if(tile.owner == null) tile.owner = player.getGameProfile().getId();
-                    tile.stack = player.inventory.getItemStack().copy();
-                    tile.stack.setCount(1);
+                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
+                    tile.shop.stack = UniStack.getStack(player.inventory.getItemStack().copy());
+                    tile.shop.stack.count(1);
                     tile.updateClient();
                     return;
                 case "adminmode":
                     if(Static.getServer().isSinglePlayer() || Static.isOp(player)){
-                        tile.admin = !tile.admin;
+                        tile.shop.admin = !tile.shop.admin;
                         tile.updateClient();
                     }
                     return;
                 case "price":
-                    if(tile.owner == null) tile.owner = player.getGameProfile().getId();
-                    tile.price = packet.getLong("price");
+                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
+                    tile.shop.price = packet.getLong("price");
                     tile.updateClient();
                     return;
                 case "sellmode":
-                    if(tile.owner == null) tile.owner = player.getGameProfile().getId();
-                    tile.sell = true;
+                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
+                    tile.shop.sell = true;
                     tile.updateClient();
                     return;
                 case "buymode":
-                    if(tile.owner == null) tile.owner = player.getGameProfile().getId();
-                    tile.sell = false;
+                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
+                    tile.shop.sell = false;
                     tile.updateClient();
                     return;
                 case "sync":
@@ -97,26 +100,26 @@ public class ShopContainer extends GenericContainer {
                     send(Side.CLIENT, com);
                     return;
                 case "act":
-                    if(tileacc != null || tile.admin){
+                    if(tileacc != null || tile.shop.admin){
                         int am = packet.getInteger("amount");
-                        int stored = tile.stored();
-                        if(tile.sell){
-                            if(!tile.admin && am > stored){
+                        int stored = tile.shop.stored();
+                        if(tile.shop.sell){
+                            if(!tile.shop.admin && am > stored){
                                 sendSync("&enot enough in stock");
                                 return;
                             }
-                            if(account.getBalance() < am * tile.price){
+                            if(account.getBalance() < am * tile.shop.price){
                                 sendSync("&enot enough money");
                                 return;
                             }
-                            if(tile.admin){
+                            if(tile.shop.admin){
                                 if(FSConfig.MAXUSEBALANCE > 0 && account.getBalance() > FSConfig.MAXUSEBALANCE){
                                     Print.chat(player, FSConfig.MAXUSEBALMSG);
                                     return;
                                 }
-                                account.modifyBalance(Manageable.Action.SUB, am * tile.price, ms);
+                                account.modifyBalance(Manageable.Action.SUB, am * tile.shop.price, ms);
                                 while(am > 0){
-                                    ItemStack stack = tile.stack.copy();
+                                    ItemStack stack = tile.shop.stack.copy().local();
                                     stack.setCount((am > stack.getCount()) ? stack.getCount() : am);
                                     if(am > stack.getCount()){
                                         am -= stack.getCount();
@@ -128,42 +131,42 @@ public class ShopContainer extends GenericContainer {
                                 }
                             }
                             else{
-                                this.account.getBank().processAction(Bank.Action.TRANSFER, ms, this.account, am * tile.price, tileacc);
-                                ItemStack stack = null, copy = null;
+                                this.account.getBank().processAction(Bank.Action.TRANSFER, ms, this.account, am * tile.shop.price, tileacc);
+                                StackWrapper stack = null, copy = null;
                                 for(int i = 0; i < 9 && am > 0; i++){
-                                    if(tile.equal(stack = tile.stacks().get(i)) && !stack.isEmpty()){
-                                        if(stack.getCount() > am){
+                                    if(tile.shop.stack.equals(stack = tile.shop.inventory.get(i)) && !stack.empty()){
+                                        if(stack.count() > am){
                                             copy = stack.copy();
-                                            copy.setCount(am);
-                                            stack.shrink(am);
+                                            copy.count(am);
+                                            stack.decr(am);
                                             am = 0;
                                         }
                                         else{
-                                            int c = (copy = stack.copy()).getCount();
-                                            stack.shrink(am);
+                                            int c = (copy = stack.copy()).count();
+                                            stack.decr(am);
                                             am -= c;
                                         }
-                                        player.inventory.addItemStackToInventory(copy);
+                                        player.inventory.addItemStackToInventory(copy.local());
                                     }
                                 }
                             }
                         }
                         else{
-                            if(!tile.admin && stored + am > tile.limit()){
+                            if(!tile.shop.admin && stored + am > tile.shop.limit()){
                                 sendSync("&enot enough shop storage");
                                 return;
                             }
-                            if(!tile.admin && tileacc.getBalance() < am * tile.price){
+                            if(!tile.shop.admin && tileacc.getBalance() < am * tile.shop.price){
                                 sendSync("&eshop out of money");
                                 return;
                             }
-                            if(tile.admin && FSConfig.MAXUSEBALANCE > 0 && account.getBalance() > FSConfig.MAXUSEBALANCE){
+                            if(tile.shop.admin && FSConfig.MAXUSEBALANCE > 0 && account.getBalance() > FSConfig.MAXUSEBALANCE){
                                 Print.chat(player, FSConfig.MAXUSEBALMSG);
                                 return;
                             }
                             int found = 0;
                             for(ItemStack stack : player.inventory.mainInventory){
-                                if(tile.equal(stack)) found += stack.getCount();
+                                if(tile.shop.stack.equals(UniStack.getStack(stack))) found += stack.getCount();
                             }
                             if(found < am){
                                 sendSync("&eyou do not have enough items");
@@ -173,7 +176,7 @@ public class ShopContainer extends GenericContainer {
                             ArrayList<ItemStack> stacks = new ArrayList<>();
                             for(ItemStack stack : player.inventory.mainInventory){
                                 if(found <= 0) break;
-                                if(tile.equal(stack)){
+                                if(tile.shop.stack.equals(UniStack.getStack(stack))){
                                     ItemStack copy = stack.copy();
                                     int count = stack.getCount();
                                     if(count > found) copy.setCount(found);
@@ -182,16 +185,16 @@ public class ShopContainer extends GenericContainer {
                                     found -= count;
                                 }
                             }
-                            if(tile.admin){
-                                account.modifyBalance(Manageable.Action.ADD, am * tile.price, ms);
+                            if(tile.shop.admin){
+                                account.modifyBalance(Manageable.Action.ADD, am * tile.shop.price, ms);
                             }
                             else{
                                 for(int i = 0; i < stacks.size(); i++){
                                     ItemStack stack = stacks.get(i);
                                     for(int x = 0; x < 9 && !stack.isEmpty(); x++)
-                                        stack = tile.handler.insertItem(x, stacks.get(i), false);
+                                        stack = ((IItemHandler)tile.shop.inventory).insertItem(x, stacks.get(i), false);
                                 }
-                                tileacc.getBank().processAction(Bank.Action.TRANSFER, ms, tileacc, am * tile.price, this.account);
+                                tileacc.getBank().processAction(Bank.Action.TRANSFER, ms, tileacc, am * tile.shop.price, this.account);
                             }
                         }
                         tile.updateClient();
