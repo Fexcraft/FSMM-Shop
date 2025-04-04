@@ -15,6 +15,7 @@ import net.fexcraft.mod.fsmm.util.Config;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -82,29 +83,29 @@ public class ShopEditUI extends GenericGui<ShopContainer> {
         });
         buttons.get("buy").rgb_hover = new RGB(244, 215, 66, 1.0F);
         buttons.get("buy").rgb_none = (new RGB("#ffffff")).setAlpha(1.0F);
-        fields.get("price").setText(Config.getWorthAsString(container.tile.price, false));
+        fields.get("price").setText(Config.getWorthAsString(container.tile.shop.price, false));
         NBTTagCompound com = new NBTTagCompound();
         com.setString("cargo", "sync");
         container.send(Side.SERVER, com);
     }
 
     protected void predraw(float pticks, int mouseX, int mouseY) {
-        buttons.get("sell").tx = container.tile.sell ? 31 : 101;
-        buttons.get("buy").tx = container.tile.sell ? 101 : 31;
-        if(container.tile.admin){
+        buttons.get("sell").tx = container.tile.shop.sell ? 31 : 101;
+        buttons.get("buy").tx = container.tile.shop.sell ? 101 : 31;
+        if(container.tile.shop.admin){
             texts.get("title").string = "Admin Shop";
         }
         else{
-            texts.get("title").string = (container.tile.owner == null) ? "New Shop" : (container.name + "'s Shop");
+            texts.get("title").string = (container.tile.shop.owner == null) ? "New Shop" : (container.name + "'s Shop");
         }
     }
 
     protected void drawlast(float pticks, int mouseX, int mouseY) {
         RenderHelper.enableGUIStandardItemLighting();
-        itemRender.renderItemAndEffectIntoGUI(container.tile.stack, guiLeft + 10, guiTop + 24);
+        itemRender.renderItemAndEffectIntoGUI(container.tile.shop.stack.local(), guiLeft + 10, guiTop + 24);
         RenderHelper.disableStandardItemLighting();
         if(buttons.get("admin").hovered){
-            ttip.add(Formatter.format("&6Admin Shop is " + (container.tile.admin ? "&cactive" : "&ainactive") + "&6."));
+            ttip.add(Formatter.format("&6Admin Shop is " + (container.tile.shop.admin ? "&cactive" : "&ainactive") + "&6."));
             ttip.add(Formatter.format("&bClick to toggle."));
         }
         if(buttons.get("confirm").hovered) ttip.add(Formatter.format("&bClick to confirm new price."));
@@ -112,9 +113,9 @@ public class ShopEditUI extends GenericGui<ShopContainer> {
             if(text.hovered) ttip.add(text.string);
         }
         if(mouseX >= guiLeft + 10 && mouseX <= guiLeft + 26 && mouseY >= guiTop + 24 && mouseY <= guiTop + 40){
-            ttip.add(Formatter.format("&9" + container.tile.stack.getDisplayName()));
-            container.tile.stack.getItem().addInformation(container.tile.stack, player.world, ttip, (ITooltipFlag) ITooltipFlag.TooltipFlags.ADVANCED);
-            ttip.add(Formatter.format("&8" + container.tile.stack.getItem().getRegistryName() + " | " + container.tile.stack.getMetadata()));
+            ttip.add(Formatter.format("&9" + container.tile.shop.stack.getName()));
+            ((ItemStack)container.tile.shop.stack.direct()).getItem().addInformation(container.tile.shop.stack.local(), player.world, ttip, (ITooltipFlag) ITooltipFlag.TooltipFlags.ADVANCED);
+            ttip.add(Formatter.format("&8" + container.tile.shop.stack.getID() + " | " + container.tile.shop.stack.damage()));
         }
         if(ttip.size() > 0) drawHoveringText(ttip, mouseX, mouseY);
         ttip.clear();
