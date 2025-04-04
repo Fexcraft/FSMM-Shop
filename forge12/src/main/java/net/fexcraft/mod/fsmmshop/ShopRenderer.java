@@ -28,7 +28,7 @@ public class ShopRenderer extends TileEntitySpecialRenderer<ShopEntity> {
     private int w;
 
     public void render(ShopEntity tile, double posX, double posY, double posZ, float ticks, int stage, float alpha) {
-        if(tile.stack == null || tile.stack.isEmpty()) return;
+        if(tile.shop.stack == null || tile.shop.stack.empty()) return;
         if(mc == null) mc = Minecraft.getMinecraft();
         GL11.glPushMatrix();
         GL11.glTranslated(posX + 0.5D, posY, posZ + 0.5D);
@@ -36,20 +36,20 @@ public class ShopRenderer extends TileEntitySpecialRenderer<ShopEntity> {
         GL11.glRotatef(this.rot[tile.getBlockMetadata()], 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
         mc.renderEngine.bindTexture(texture);
-        (tile.sell ? buy : sell).glColorApply();
+        (tile.shop.sell ? buy : sell).glColorApply();
         ShopModel.top.render();
-        (tile.admin ? adm : norm).glColorApply();
+        (tile.shop.admin ? adm : norm).glColorApply();
         ShopModel.bot.render();
         GL11.glRotatef(-180.0F, 0.0F, 0.0F, 1.0F);
         GL11.glTranslated(0.0D, 0.375D, 0.0D);
         GL11.glRotatef(tile.rot += ticks, 0.0F, 1.0F, 0.0F);
-        mc.getItemRenderer().renderItem(mc.player, tile.stack, ItemCameraTransforms.TransformType.GROUND);
+        mc.getItemRenderer().renderItem(mc.player, tile.shop.stack.local(), ItemCameraTransforms.TransformType.GROUND);
         GL11.glRotatef(-tile.rot, 0.0F, 1.0F, 0.0F);
         GL11.glTranslated(0.0D, -0.2D, 0.48D);
         GL11.glRotatef(-180.0F, 0.0F, 1.0F, 0.0F);
-        drawString(Config.getWorthAsString(tile.price, true, false));
+        drawString(Config.getWorthAsString(tile.shop.price, true, false));
         GL11.glTranslated(0.0D, 0.75D, 0.0D);
-        drawString(tile.sell ? "For Sale" : "Wanted");
+        drawString(tile.shop.sell ? "For Sale" : "Wanted");
         GL11.glPopMatrix();
         GL11.glPopMatrix();
     }
