@@ -1,0 +1,65 @@
+{
+	"_info_": "Shop Editor UI",
+	"background": false,
+	"size": [ 176, 150 ],
+	"tabs": {
+		"main": {
+			"texture": "fsmmshop:textures/gui/shop_edit.png",
+			"size": [ 176, 150 ],
+			"pos": [ 0, 0 ],
+			"buttons": [
+				"admin",
+				"confirm",
+				"sell",
+				"buy",
+				"item"
+			],
+			"texts":[
+				"title"
+			],
+			"fields":[
+				"price"
+			]
+		}
+	},
+	"buttons": {
+		"admin": {
+			"size": [ 10, 10 ],
+			"pos": [ 159, 8 ],
+			"tooltip": "ui.fsmmshop.shop_editor.admin"
+		},
+		"confirm": {
+			"size": [ 10, 10 ],
+			"pos": [ 159, 21 ],
+			"tooltip": "ui.fsmmshop.shop_editor.confirm"
+		},
+		"sell": {
+			"size": [ 68, 10 ],
+			"pos": [ 31, 33 ],
+			"tooltip": "ui.fsmmshop.shop_editor.sell"
+		},
+		"buy": {
+			"size": [ 68, 10 ],
+			"pos": [ 101, 33 ],
+			"tooltip": "ui.fsmmshop.shop_editor.buy"
+		},
+		"item": {
+			"size": [ 16, 16 ],
+			"pos": [ 10, 24 ]
+		}
+	},
+	"texts": {
+		"title": {
+			"size": [ 146, 8 ],
+			"pos": [ 9, 9 ],
+			"autoscale": true
+		}
+	},
+	"fields": {
+		"price": {
+			"size": [ 124, 8 ],
+			"pos": [ 32, 22 ],
+			"background": false
+		}
+	}
+}
