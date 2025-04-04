@@ -7,6 +7,7 @@ import net.fexcraft.lib.mc.registry.FCLRegistry;
 import net.fexcraft.lib.mc.render.FCLBlockModel;
 import net.fexcraft.lib.mc.render.FCLBlockModelLoader;
 import net.fexcraft.mod.fsmm.util.FSMMSubCommand;
+import net.fexcraft.mod.uni.UniReg;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -46,6 +47,8 @@ public class FSMMShop {
             FCLBlockModelLoader.addBlockModel(new ResourceLocation("fsmmshop:models/block/shop"), ((Class<FCLBlockModel>)FCLRegistry.getModel("fsmmshop:models/block/shop")).newInstance());
         }
         CONFIG = new FSConfig(new File(event.getSuggestedConfigurationFile().getParentFile(), "fsmm-shop.json"));
+        UniReg.registerMod("fsmmshop", this);
+        FSUI.register();
     }
 
     @EventHandler
