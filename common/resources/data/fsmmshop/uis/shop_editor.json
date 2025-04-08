@@ -61,5 +61,23 @@
 			"pos": [ 32, 22 ],
 			"background": false
 		}
+	},
+	"slots": {
+		"shop": {
+			"pos": [ 8, 46 ],
+			"player": false,
+			"index": 0,
+			"repeat": [ 9, 1 ]
+		},
+		"player3x9": {
+			"pos": [ 8, 70 ],
+			"index": 9,
+			"repeat": [ 9, 3 ]
+		},
+		"player1x9": {
+			"pos": [ 8, 126 ],
+			"index": 0,
+			"repeat": [ 9, 1 ]
+		}
 	}
 }
