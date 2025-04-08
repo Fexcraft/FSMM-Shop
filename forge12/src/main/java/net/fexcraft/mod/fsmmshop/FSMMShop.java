@@ -69,8 +69,8 @@ public class FSMMShop {
         ClientRegistry.bindTileEntitySpecialRenderer(ShopEntity.class, new ShopRenderer());
     }
 
-    public static UniInventory getInvAt(World world, V3I pos){
-        return ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).shop.inventory;
+    public static Shop getShopAt(World world, V3I pos){
+        return ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).shop;
     }
 
 }
