@@ -1,19 +1,21 @@
 package net.fexcraft.mod.fsmmshop;
 
-import net.fexcraft.app.json.JsonHandler;
-import net.fexcraft.app.json.JsonMap;
+import net.fexcraft.lib.common.math.V3I;
 import net.fexcraft.lib.mc.crafting.RecipeRegistry;
 import net.fexcraft.lib.mc.registry.FCLRegistry;
 import net.fexcraft.lib.mc.render.FCLBlockModel;
 import net.fexcraft.lib.mc.render.FCLBlockModelLoader;
 import net.fexcraft.mod.fsmm.util.FSMMSubCommand;
 import net.fexcraft.mod.uni.UniReg;
+import net.fexcraft.mod.uni.inv.UniInventory;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -40,7 +42,7 @@ public class FSMMShop {
     //
     public static FSConfig CONFIG;
 
-    @EventHandler
+	@EventHandler
     public void preInit(FMLPreInitializationEvent event) throws InstantiationException, IllegalAccessException {
         new FCLRegistry.AutoRegisterer("fsmmshop");
         if(event.getSide().isClient()){
@@ -65,6 +67,10 @@ public class FSMMShop {
     @SideOnly(Side.CLIENT)
     private void regtileren(){
         ClientRegistry.bindTileEntitySpecialRenderer(ShopEntity.class, new ShopRenderer());
+    }
+
+    public static UniInventory getInvAt(World world, V3I pos){
+        return ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).shop.inventory;
     }
 
 }
