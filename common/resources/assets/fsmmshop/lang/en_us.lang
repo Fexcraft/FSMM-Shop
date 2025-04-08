@@ -1,1 +1,10 @@
 fsmmshop.max-use-balance-msg=&eYour balance is too high to use admin shops.
+ui.fsmmshop.shop_name.admin=Admin Shop
+ui.fsmmshop.shop_name.new=New Shop
+ui.fsmmshop.shop_name.owned=%s's Shop
+ui.fsmmshop.shop_editor.admin.active=&6Admin Shop is &cactive&6.
+ui.fsmmshop.shop_editor.admin.inactive=&6Admin Shop is &ainactive&6.
+ui.fsmmshop.shop_editor.admin.toggle=&bClick to toggle.
+ui.fsmmshop.shop_editor.confirm=&bClick to confirm new price.
+ui.fsmmshop.shop_editor.sell=&bSell Mode
+ui.fsmmshop.shop_editor.buy=&bBuy Mode
