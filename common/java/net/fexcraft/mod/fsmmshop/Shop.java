@@ -14,7 +14,9 @@ import java.util.UUID;
 public class Shop {
 
 	public final UniInventory inventory = UniInventory.create(9);
-	public StackWrapper stack = StackWrapper.EMPTY;public UUID owner;
+	public StackWrapper stack = StackWrapper.EMPTY;
+	public String oname;
+	public UUID owner;
 	public boolean admin;
 	public boolean sell;
 	public long price;
@@ -26,6 +28,7 @@ public class Shop {
 		if(this.owner != null){
 			com.set("owner-0", owner.getMostSignificantBits());
 			com.set("owner-1", owner.getLeastSignificantBits());
+			com.set("oname", oname);
 		}
 		com.set("admin", admin);
 		TagLW list = TagLW.create();
@@ -41,7 +44,10 @@ public class Shop {
 
 	public void read(TagCW com){
 		stack = com.has("stack") ? UniStack.STACK_GETTER.apply(com.getCompound("stack")) : StackWrapper.EMPTY;
-		if(com.has("owner-0")) owner = new UUID(com.getLong("owner-0"), com.getLong("owner-1"));
+		if(com.has("owner-0")){
+			owner = new UUID(com.getLong("owner-0"), com.getLong("owner-1"));
+			oname = com.has("oname") ? com.getString("oname") : owner.toString();
+		}
 		admin = com.getBoolean("admin");
 		inventory.clear();
 		if(com.has("stacks")){
