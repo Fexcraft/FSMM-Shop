@@ -26,7 +26,7 @@
 		"admin": {
 			"size": [ 10, 10 ],
 			"pos": [ 159, 8 ],
-			"tooltip": "ui.fsmmshop.shop_editor.admin"
+			"#tooltip": "ui.fsmmshop.shop_editor.admin"
 		},
 		"confirm": {
 			"size": [ 10, 10 ],
