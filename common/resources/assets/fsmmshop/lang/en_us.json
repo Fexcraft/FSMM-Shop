@@ -1,3 +1,12 @@
 {
-  "fsmmshop.max-use-balance-msg": "\u00A7eYour balance is too high to use admin shops."
+    "fsmmshop.max-use-balance-msg": "\u00A7eYour balance is too high to use admin shops.",
+    "ui.fsmmshop.shop_name.admin": "Admin Shop",
+    "ui.fsmmshop.shop_name.new": "New Shop",
+    "ui.fsmmshop.shop_name.owned": "%s's Shop",
+    "ui.fsmmshop.shop_editor.admin.active": "\u00A76Admin Shop is \u00A7cactive\u00A76.",
+    "ui.fsmmshop.shop_editor.admin.inactive": "\u00A76Admin Shop is \u00A7ainactive\u00A76.",
+    "ui.fsmmshop.shop_editor.admin.toggle": "\u00A7bClick to toggle.",
+    "ui.fsmmshop.shop_editor.confirm": "\u00A7bClick to confirm new price.",
+    "ui.fsmmshop.shop_editor.sell": "\u00A7bSell Mode",
+    "ui.fsmmshop.shop_editor.buy": "\u00A7bBuy Mode"
 }
