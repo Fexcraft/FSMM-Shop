@@ -73,4 +73,8 @@ public class FSMMShop {
         return ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).shop;
     }
 
+    public static void updateShop(World world, V3I pos){
+        ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).updateClient();
+    }
+
 }
