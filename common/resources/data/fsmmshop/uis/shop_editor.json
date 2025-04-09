@@ -36,12 +36,22 @@
 		"sell": {
 			"size": [ 68, 10 ],
 			"pos": [ 31, 33 ],
-			"tooltip": "ui.fsmmshop.shop_editor.sell"
+			"text": {
+				"size": [ 64, 8 ],
+				"value": "ui.fsmmshop.shop_editor.sell",
+				"translate": true,
+				"centered": true
+			}
 		},
 		"buy": {
 			"size": [ 68, 10 ],
 			"pos": [ 101, 33 ],
-			"tooltip": "ui.fsmmshop.shop_editor.buy"
+			"text": {
+				"size": [ 64, 8 ],
+				"value": "ui.fsmmshop.shop_editor.buy",
+				"translate": true,
+				"centered": true
+			}
 		},
 		"item": {
 			"size": [ 16, 16 ],
