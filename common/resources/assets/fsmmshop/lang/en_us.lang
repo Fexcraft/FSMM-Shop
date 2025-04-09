@@ -6,5 +6,5 @@ ui.fsmmshop.shop_editor.admin.active=&6Admin Shop is &cactive&6.
 ui.fsmmshop.shop_editor.admin.inactive=&6Admin Shop is &ainactive&6.
 ui.fsmmshop.shop_editor.admin.toggle=&bClick to toggle.
 ui.fsmmshop.shop_editor.confirm=&bClick to confirm new price.
-ui.fsmmshop.shop_editor.sell=&bSell Mode
-ui.fsmmshop.shop_editor.buy=&bBuy Mode
+ui.fsmmshop.shop_editor.sell=Sell Mode
+ui.fsmmshop.shop_editor.buy=Buy Mode
