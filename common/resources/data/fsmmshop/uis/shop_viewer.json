@@ -1,0 +1,100 @@
+{
+	"_info_": "Shop Editor UI",
+	"background": false,
+	"size": [ 176, 142 ],
+	"tabs": {
+		"main": {
+			"texture": "fsmmshop:textures/gui/shop_view.png",
+			"size": [ 176, 142 ],
+			"pos": [ 0, 0 ],
+			"buttons": [
+				"act",
+				"act2",
+				"act4",
+				"act8",
+				"act16",
+				"act32",
+				"act64",
+				"item"
+			],
+			"texts":[
+				"title",
+				"amount",
+				"price",
+				"balance"
+			]
+		}
+	},
+	"buttons": {
+		"act": {
+			"size": [ 48, 10 ],
+			"pos": [ 31, 33 ],
+			"text": {
+				"size": [44, 8],
+				"centered": true
+			}
+		},
+		"act2": {
+			"size": [ 13, 10 ],
+			"pos": [ 81, 33 ]
+		},
+		"act4": {
+			"size": [ 13, 10 ],
+			"pos": [ 96, 33 ]
+		},
+		"act8": {
+			"size": [ 13, 10 ],
+			"pos": [ 111, 33 ]
+		},
+		"act16": {
+			"size": [ 13, 10 ],
+			"pos": [ 126, 33 ]
+		},
+		"act32": {
+			"size": [ 13, 10 ],
+			"pos": [ 141, 33 ]
+		},
+		"act64": {
+			"size": [ 13, 10 ],
+			"pos": [ 156, 33 ]
+		},
+		"item": {
+			"size": [ 16, 16 ],
+			"pos": [ 10, 24 ]
+		}
+	},
+	"texts": {
+		"title": {
+			"size": [ 158, 8 ],
+			"pos": [ 9, 9 ],
+			"autoscale": true
+		},
+		"amount": {
+			"size": [ 64, 8 ],
+			"pos": [ 33, 22 ],
+			"autoscale": true
+		},
+		"price": {
+			"size": [ 64, 8 ],
+			"pos": [ 103, 22 ],
+			"autoscale": true
+		},
+		"balance": {
+			"size": [ 158, 8 ],
+			"pos": [ 9, 50 ],
+			"autoscale": true
+		}
+	},
+	"slots": {
+		"player3x9": {
+			"pos": [ 8, 62 ],
+			"index": 9,
+			"repeat": [ 9, 3 ]
+		},
+		"player1x9": {
+			"pos": [ 8, 118 ],
+			"index": 0,
+			"repeat": [ 9, 1 ]
+		}
+	}
+}
