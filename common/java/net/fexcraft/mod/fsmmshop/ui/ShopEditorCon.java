@@ -25,45 +25,45 @@ public class ShopEditorCon extends ContainerInterface {
 
 	@Override
 	public void packet(TagCW com, boolean client){
-		FCL.LOGGER.debug(com);
+		//FCL.LOGGER.debug(com);
 		String task = com.getString("task");
 		switch(task){
 			case "admin":{
-				if(client || WrapperHolder.isSinglePlayer() || WrapperHolder.isOp(player.entity)){
+				if(WrapperHolder.isSinglePlayer() || WrapperHolder.isOp(player.entity)){
 					shop.admin = !shop.admin;
-					if(!client) sendUpdate(com);
+					if(!client) sendUpdate();
 				}
 				return;
 			}
 			case "item":{
-				if(shop.owner == null) shop.setOwner(player.entity);
+				if(shop.owner == null) shop.setOwner(player);
 				shop.stack = root.getPickedStack();
 				shop.stack.count(1);
-				if(!client) sendUpdate(com);
+				if(!client) sendUpdate();
 				return;
 			}
 			case "price":{
-				if(shop.owner == null) shop.setOwner(player.entity);
+				if(shop.owner == null) shop.setOwner(player);
 				shop.price = com.getLong("price");
-				if(!client) sendUpdate(com);
+				if(!client) sendUpdate();
 				return;
 			}
 			case "sell":{
-				if(shop.owner == null) shop.setOwner(player.entity);
+				if(shop.owner == null) shop.setOwner(player);
 				shop.sell = true;
-				if(!client) sendUpdate(com);
+				if(!client) sendUpdate();
 				return;
 			}
 			case "buy":{
-				if(shop.owner == null) shop.setOwner(player.entity);
+				if(shop.owner == null) shop.setOwner(player);
 				shop.sell = false;
-				if(!client) sendUpdate(com);
+				if(!client) sendUpdate();
 				return;
 			}
 		}
 	}
 
-	private void sendUpdate(TagCW com){
+	private void sendUpdate(){
 		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
 	}
 
