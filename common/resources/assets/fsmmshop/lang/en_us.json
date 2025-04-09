@@ -8,5 +8,18 @@
     "ui.fsmmshop.shop_editor.admin.toggle": "\u00A7bClick to toggle.",
     "ui.fsmmshop.shop_editor.confirm": "\u00A7bClick to confirm new price.",
     "ui.fsmmshop.shop_editor.sell": "Sell Mode",
-    "ui.fsmmshop.shop_editor.buy": "Buy Mode"
+    "ui.fsmmshop.shop_editor.buy": "Buy Mode",
+    "ui.fsmmshop.shop_viewer.infinite": "infinite stock",
+    "ui.fsmmshop.shop_viewer.stock": "%s in",
+    "ui.fsmmshop.shop_viewer.free": "%s of %s free",
+    "ui.fsmmshop.shop_viewer.balance": "Your Balance: %s",
+    "ui.fsmmshop.shop_viewer.sell": "Sell",
+    "ui.fsmmshop.shop_viewer.buy": "Buy",
+    "ui.fsmmshop.shop_viewer.inactive": "\u00A7ashop price is not set",
+    "ui.fsmmshop.shop_viewer.no_account": "\u00A7ashop account is invalid",
+    "ui.fsmmshop.shop_viewer.sell.not_enough_stored": "\u00A7enot enough in stock",
+    "ui.fsmmshop.shop_viewer.sell.not_enough_money": "\u00A7enot enough money",
+    "ui.fsmmshop.shop_viewer.buy.not_enough_space": "\u00A7enot enough space in shop",
+    "ui.fsmmshop.shop_viewer.buy.not_enough_money": "\u00A7enot enough money in shop",
+    "ui.fsmmshop.shop_viewer.buy.not_enough_items": "\u00A7eyou do not have enough items"
 }
