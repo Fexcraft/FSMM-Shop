@@ -1,13 +1,14 @@
 package net.fexcraft.mod.fsmmshop;
 
+import net.fexcraft.mod.fsmm.data.Account;
+import net.fexcraft.mod.fsmm.data.PlayerAccData;
+import net.fexcraft.mod.fsmm.util.DataManager;
+import net.fexcraft.mod.uni.UniEntity;
 import net.fexcraft.mod.uni.inv.StackWrapper;
 import net.fexcraft.mod.uni.inv.UniInventory;
 import net.fexcraft.mod.uni.inv.UniStack;
 import net.fexcraft.mod.uni.tag.TagCW;
 import net.fexcraft.mod.uni.tag.TagLW;
-import net.fexcraft.mod.uni.world.EntityW;
-
-import java.util.UUID;
 
 /**
  * @author Ferdinand Calo' (FEX___96)
@@ -16,25 +17,26 @@ public class Shop {
 
 	public final UniInventory inventory = UniInventory.create(9);
 	public StackWrapper stack = StackWrapper.EMPTY;
+	public String owner;
 	public String oname;
-	public UUID owner;
 	public boolean admin;
 	public boolean sell;
 	public long price;
 
 	public void write(TagCW com){
-		TagCW tag = TagCW.create();
-		stack.save(tag);
-		com.set("stack", tag);
-		if(this.owner != null){
-			com.set("owner-0", owner.getMostSignificantBits());
-			com.set("owner-1", owner.getLeastSignificantBits());
+		if(!stack.empty()){
+			TagCW tag = TagCW.create();
+			stack.save(tag);
+			com.set("stack", tag);
+		}
+		if(owner != null){
+			com.set("owner", owner);
 			if(oname != null) com.set("oname", oname);
 		}
 		com.set("admin", admin);
 		TagLW list = TagLW.create();
 		for(int i = 0; i < 9; i++){
-			tag = TagCW.create();
+			TagCW tag = TagCW.create();
 			inventory.get(i).save(tag);
 			list.add(tag);
 		}
@@ -45,8 +47,8 @@ public class Shop {
 
 	public void read(TagCW com){
 		stack = com.has("stack") ? UniStack.STACK_GETTER.apply(com.getCompound("stack")) : StackWrapper.EMPTY;
-		if(com.has("owner-0")){
-			owner = new UUID(com.getLong("owner-0"), com.getLong("owner-1"));
+		if(com.has("owner")){
+			owner = com.getString("owner");
 			oname = com.has("oname") ? com.getString("oname") : owner.toString();
 		}
 		admin = com.getBoolean("admin");
@@ -80,9 +82,21 @@ public class Shop {
 		return Math.min(limit, 576);
 	}
 
-	public void setOwner(EntityW entity){
-		owner = entity.getUUID();
-		oname = entity.getName();
+	public void setOwner(UniEntity entity){
+		PlayerAccData data = entity.getApp(PlayerAccData.class);
+		if(data.getSelectedAccount() == null){
+			owner = data.getAccount().getTypeAndId();
+			oname = entity.entity.getName();
+		}
+		else{
+			owner = data.getSelectedAccount().getTypeAndId();
+			oname = data.getSelectedAccount().getAccount().getName();
+		}
+	}
+
+	public Account account(){
+		if(owner == null || admin) return null;
+		return DataManager.getAccount(owner, true);
 	}
 
 }
