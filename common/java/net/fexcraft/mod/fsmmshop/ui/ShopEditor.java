@@ -97,7 +97,7 @@ public class ShopEditor extends UserInterface {
 			list.add(drawer.translate("ui.fsmmshop.shop_editor.admin." + (con.shop.admin ? "active" : "inactive")));
 			list.add(drawer.translate("ui.fsmmshop.shop_editor.admin.toggle"));
 		}
-		if(mx >= gLeft + 10 && mx <= gLeft + 26 && my >= gTop + 24 && my <= gTop + 40){
+		if(buttons.get("item").hovered()){
 			list.add(con.shop.stack.getName());
 			//todo stack info
 			list.add(con.shop.stack.getID() + " | " + con.shop.stack.damage());
