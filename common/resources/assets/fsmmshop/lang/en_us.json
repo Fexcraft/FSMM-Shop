@@ -7,6 +7,6 @@
     "ui.fsmmshop.shop_editor.admin.inactive": "\u00A76Admin Shop is \u00A7ainactive\u00A76.",
     "ui.fsmmshop.shop_editor.admin.toggle": "\u00A7bClick to toggle.",
     "ui.fsmmshop.shop_editor.confirm": "\u00A7bClick to confirm new price.",
-    "ui.fsmmshop.shop_editor.sell": "\u00A7bSell Mode",
-    "ui.fsmmshop.shop_editor.buy": "\u00A7bBuy Mode"
+    "ui.fsmmshop.shop_editor.sell": "Sell Mode",
+    "ui.fsmmshop.shop_editor.buy": "Buy Mode"
 }
