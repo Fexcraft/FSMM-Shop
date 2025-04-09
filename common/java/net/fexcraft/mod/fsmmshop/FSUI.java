@@ -2,6 +2,8 @@ package net.fexcraft.mod.fsmmshop;
 
 import net.fexcraft.mod.fsmmshop.ui.ShopEditor;
 import net.fexcraft.mod.fsmmshop.ui.ShopEditorCon;
+import net.fexcraft.mod.fsmmshop.ui.ShopViewer;
+import net.fexcraft.mod.fsmmshop.ui.ShopViewerCon;
 import net.fexcraft.mod.uni.UniReg;
 import net.fexcraft.mod.uni.ui.ContainerInterface;
 import net.fexcraft.mod.uni.ui.UIKey;
@@ -18,8 +20,8 @@ public class FSUI {
 	public static void register(){
 		UniReg.registerUI(SHOP_EDITOR, ShopEditor.class);
 		UniReg.registerMenu(SHOP_EDITOR, "fsmmshop:uis/shop_editor", ShopEditorCon.class);
-		UniReg.registerUI(SHOP_VIEWER, UserInterface.class);
-		UniReg.registerMenu(SHOP_VIEWER, "fsmmshop:uis/shop_viewer", ContainerInterface.class);
+		UniReg.registerUI(SHOP_VIEWER, ShopViewer.class);
+		UniReg.registerMenu(SHOP_VIEWER, "fsmmshop:uis/shop_viewer", ShopViewerCon.class);
 	}
 
 }
