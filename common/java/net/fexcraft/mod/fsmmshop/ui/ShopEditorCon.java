@@ -37,7 +37,7 @@ public class ShopEditorCon extends ContainerInterface {
 			}
 			case "item":{
 				if(shop.owner == null) shop.setOwner(player);
-				shop.stack = root.getPickedStack();
+				shop.stack = root.getPickedStack().copy();
 				shop.stack.count(1);
 				if(!client) sendUpdate();
 				return;
