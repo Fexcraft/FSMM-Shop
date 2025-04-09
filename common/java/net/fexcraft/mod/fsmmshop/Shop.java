@@ -5,6 +5,7 @@ import net.fexcraft.mod.uni.inv.UniInventory;
 import net.fexcraft.mod.uni.inv.UniStack;
 import net.fexcraft.mod.uni.tag.TagCW;
 import net.fexcraft.mod.uni.tag.TagLW;
+import net.fexcraft.mod.uni.world.EntityW;
 
 import java.util.UUID;
 
@@ -28,7 +29,7 @@ public class Shop {
 		if(this.owner != null){
 			com.set("owner-0", owner.getMostSignificantBits());
 			com.set("owner-1", owner.getLeastSignificantBits());
-			com.set("oname", oname);
+			if(oname != null) com.set("oname", oname);
 		}
 		com.set("admin", admin);
 		TagLW list = TagLW.create();
@@ -77,6 +78,11 @@ public class Shop {
 			}
 		}
 		return Math.min(limit, 576);
+	}
+
+	public void setOwner(EntityW entity){
+		owner = entity.getUUID();
+		oname = entity.getName();
 	}
 
 }
