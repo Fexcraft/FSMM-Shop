@@ -58,14 +58,13 @@ public class ShopBlock extends BlockContainer {
     }
 
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!world.isRemote && !player.isSneaking()){
-            boolean coin = player.getHeldItemMainhand().getItem() instanceof MoneyItem;
+        if(!world.isRemote){
             ShopEntity tile = (ShopEntity) world.getTileEntity(pos);
             boolean sp = Static.getServer().isSinglePlayer();
-            if(!coin && (tile.shop.owner == null || tile.shop.owner.equals(player.getGameProfile().getId()))){
+            if(player.isSneaking() && (tile.shop.owner == null || tile.shop.owner.equals(player.getGameProfile().getId()))){
                 player.openGui(FSMMShop.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
             }
-            else if(!coin && player.capabilities.isCreativeMode && (sp || Static.isOp(player))){
+            else if(player.isSneaking() && player.capabilities.isCreativeMode && (sp || Static.isOp(player))){
                 player.openGui(FSMMShop.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
             }
             else{
