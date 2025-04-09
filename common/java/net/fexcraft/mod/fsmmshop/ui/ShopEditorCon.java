@@ -2,10 +2,13 @@ package net.fexcraft.mod.fsmmshop.ui;
 
 import net.fexcraft.app.json.JsonMap;
 import net.fexcraft.lib.common.math.V3I;
+import net.fexcraft.mod.fcl.FCL;
 import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.Shop;
 import net.fexcraft.mod.uni.UniEntity;
+import net.fexcraft.mod.uni.tag.TagCW;
 import net.fexcraft.mod.uni.ui.ContainerInterface;
+import net.fexcraft.mod.uni.world.WrapperHolder;
 
 /**
  * @author Ferdinand Calo' (FEX___96)
@@ -18,6 +21,50 @@ public class ShopEditorCon extends ContainerInterface {
 		super(map, ply, pos);
 		shop = FSMMShop.getShopAt(ply.entity.getWorld().local(), pos);
 		inventory = shop.inventory;
+	}
+
+	@Override
+	public void packet(TagCW com, boolean client){
+		FCL.LOGGER.debug(com);
+		String task = com.getString("task");
+		switch(task){
+			case "admin":{
+				if(client || WrapperHolder.isSinglePlayer() || WrapperHolder.isOp(player.entity)){
+					shop.admin = !shop.admin;
+					if(!client) sendUpdate(com);
+				}
+				return;
+			}
+			case "item":{
+				if(shop.owner == null) shop.setOwner(player.entity);
+				shop.stack = root.getPickedStack();
+				shop.stack.count(1);
+				if(!client) sendUpdate(com);
+				return;
+			}
+			case "price":{
+				if(shop.owner == null) shop.setOwner(player.entity);
+				shop.price = com.getLong("price");
+				if(!client) sendUpdate(com);
+				return;
+			}
+			case "sell":{
+				if(shop.owner == null) shop.setOwner(player.entity);
+				shop.sell = true;
+				if(!client) sendUpdate(com);
+				return;
+			}
+			case "buy":{
+				if(shop.owner == null) shop.setOwner(player.entity);
+				shop.sell = false;
+				if(!client) sendUpdate(com);
+				return;
+			}
+		}
+	}
+
+	private void sendUpdate(TagCW com){
+		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
 	}
 
 }
