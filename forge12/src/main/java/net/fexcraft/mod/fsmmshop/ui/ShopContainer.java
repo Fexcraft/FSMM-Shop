@@ -66,33 +66,6 @@ public class ShopContainer extends GenericContainer {
             EntityW ms = UniEntity.getEntity(player);
             NBTTagCompound com;
             switch(packet.getString("cargo")){
-                case "setstack":
-                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
-                    tile.shop.stack = UniStack.getStack(player.inventory.getItemStack().copy());
-                    tile.shop.stack.count(1);
-                    tile.updateClient();
-                    return;
-                case "adminmode":
-                    if(Static.getServer().isSinglePlayer() || Static.isOp(player)){
-                        tile.shop.admin = !tile.shop.admin;
-                        tile.updateClient();
-                    }
-                    return;
-                case "price":
-                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
-                    tile.shop.price = packet.getLong("price");
-                    tile.updateClient();
-                    return;
-                case "sellmode":
-                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
-                    tile.shop.sell = true;
-                    tile.updateClient();
-                    return;
-                case "buymode":
-                    if(tile.shop.owner == null) tile.shop.owner = player.getGameProfile().getId();
-                    tile.shop.sell = false;
-                    tile.updateClient();
-                    return;
                 case "sync":
                     com = new NBTTagCompound();
                     com.setString("name", name);
