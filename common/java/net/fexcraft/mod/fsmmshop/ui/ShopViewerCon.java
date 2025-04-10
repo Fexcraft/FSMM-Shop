@@ -59,8 +59,6 @@ public class ShopViewerCon extends ContainerInterface {
 					try{
 						if(shop.sell) processBuy(am);
 						else processSell(am);
-						FSMMShop.updateShop(player.entity.getWorld().local(), pos);
-						sendSync();
 					}
 					catch(Exception e){
 						e.printStackTrace();
@@ -87,10 +85,12 @@ public class ShopViewerCon extends ContainerInterface {
 		if(!shop.admin && am > shop.stored()){
 			msg = "ui.fsmmshop.shop_viewer.sell.not_enough_stored";
 			sendSync();
+			return;
 		}
 		if(plyacc.getBalance() < am * shop.price){
 			msg = "ui.fsmmshop.shop_viewer.sell.not_enough_money";
 			sendSync();
+			return;
 		}
 		if(shop.admin){
 			if(FSConfig.MAXUSEBALANCE > 0 && plyacc.getBalance() > FSConfig.MAXUSEBALANCE){
@@ -130,6 +130,8 @@ public class ShopViewerCon extends ContainerInterface {
 				}
 			}
 		}
+		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
+		sendSync();
 	}
 
 	private void processSell(int am){
@@ -185,14 +187,19 @@ public class ShopViewerCon extends ContainerInterface {
 			}
 			shopacc.getBank().processAction(Bank.Action.TRANSFER, player.entity, shopacc, am * shop.price, plyacc);
 		}
+		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
+		sendSync();
 	}
 
 	private void sendSync(){
 		TagCW com = TagCW.create();
 		com.set("task", "sync");
 		com.set("bal", plyacc.getBalance());
-		if(msg != null) com.set("msg", msg);
-		msg = null;
+		if(msg != null){
+			com.set("msg", msg);
+			msg = null;
+		}
+		SEND_TO_CLIENT.accept(com, player);
 	}
 
 }
