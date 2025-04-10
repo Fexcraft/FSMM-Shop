@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 apply plugin: 'idea'
 
-version = '2.0.0'
+version = '2.0.1'
 group = 'net.fexcraft.mod.fsmmshop'
 archivesBaseName = 'FSMM-Shop'
 
