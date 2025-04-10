@@ -64,7 +64,7 @@ public class Shop {
 	public int stored(){
 		int stored = 0;
 		for(int i = 0; i < inventory.size(); i++){
-			if(inventory.get(i).equals(stack)) stored += stack.count();
+			if(inventory.get(i).equals(stack)) stored += inventory.get(i).count();
 		}
 		return stored;
 	}
