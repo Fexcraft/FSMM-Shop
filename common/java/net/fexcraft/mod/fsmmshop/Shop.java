@@ -99,4 +99,10 @@ public class Shop {
 		return DataManager.getAccount(owner, true);
 	}
 
+	public boolean isOwner(PlayerAccData data){
+		if(data.getSelectedAccount() == null){
+			return owner.equals(data.getAccount().getTypeAndId());
+		}
+		else return owner.equals(data.getSelectedAccount().getTypeAndId());
+	}
 }
