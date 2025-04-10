@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class ShopRenderer extends TileEntitySpecialRenderer<ShopEntity> {
 
-    private static ResourceLocation texture = new ResourceLocation("fsmmshop:textures/blocks/shop.png");
+    private static ResourceLocation texture = new ResourceLocation("fsmmshop:textures/block/shop.png");
     private static RGB sell = new RGB(5887044), buy = new RGB(16539473);
     private static RGB norm = RGB.WHITE.copy();
     private static RGB adm = new RGB(15858708);
