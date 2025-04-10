@@ -93,6 +93,9 @@ public class ShopViewer extends UserInterface {
 
 	@Override
 	public void getTooltip(int mx, int my, List<String> list){
+		if(texts.get("title").hovered()) list.add(texts.get("title").value());
+		if(texts.get("amount").hovered()) list.add(texts.get("amount").value());
+		if(texts.get("price").hovered()) list.add(texts.get("price").value());
 		if(buttons.get("item").hovered()){
 			list.add(con.shop.stack.getName());
 			//todo stack info
