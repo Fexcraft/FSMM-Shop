@@ -10,7 +10,7 @@
     "ui.fsmmshop.shop_editor.sell": "Sell Mode",
     "ui.fsmmshop.shop_editor.buy": "Buy Mode",
     "ui.fsmmshop.shop_viewer.infinite": "infinite stock",
-    "ui.fsmmshop.shop_viewer.stock": "%s in",
+    "ui.fsmmshop.shop_viewer.stock": "%s in stock",
     "ui.fsmmshop.shop_viewer.free": "%s of %s free",
     "ui.fsmmshop.shop_viewer.balance": "Your Balance: %s",
     "ui.fsmmshop.shop_viewer.sell": "Sell",
