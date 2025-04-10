@@ -12,11 +12,8 @@ import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.Shop;
 import net.fexcraft.mod.uni.UniEntity;
 import net.fexcraft.mod.uni.inv.StackWrapper;
-import net.fexcraft.mod.uni.inv.UniStack;
 import net.fexcraft.mod.uni.tag.TagCW;
 import net.fexcraft.mod.uni.ui.ContainerInterface;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
 
