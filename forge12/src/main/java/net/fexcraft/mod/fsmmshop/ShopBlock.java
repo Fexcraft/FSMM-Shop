@@ -5,7 +5,9 @@ import com.google.common.base.Predicate;
 import net.fexcraft.lib.mc.api.registry.fBlock;
 import net.fexcraft.lib.mc.utils.Static;
 import net.fexcraft.mod.fsmm.FSMM;
+import net.fexcraft.mod.fsmm.data.PlayerAccData;
 import net.fexcraft.mod.fsmm.local.MoneyItem;
+import net.fexcraft.mod.uni.UniEntity;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -61,7 +63,8 @@ public class ShopBlock extends BlockContainer {
         if(!world.isRemote){
             ShopEntity tile = (ShopEntity) world.getTileEntity(pos);
             boolean sp = Static.getServer().isSinglePlayer();
-            if(player.isSneaking() && (tile.shop.owner == null || tile.shop.owner.equals(player.getGameProfile().getId()))){
+            PlayerAccData data = UniEntity.get(player).getApp(PlayerAccData.class);
+            if(player.isSneaking() && (tile.shop.owner == null || tile.shop.isOwner(data))){
                 player.openGui(FSMMShop.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
             }
             else if(player.isSneaking() && player.capabilities.isCreativeMode && (sp || Static.isOp(player))){
