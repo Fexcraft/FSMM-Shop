@@ -69,7 +69,7 @@
 		"price": {
 			"size": [ 124, 8 ],
 			"pos": [ 32, 22 ],
-			"background": false
+			"background": true
 		}
 	},
 	"slots": {
