@@ -1,4 +1,5 @@
 fsmmshop.max-use-balance-msg=&eYour balance is too high to use admin shops.
+tile.fsmmshop:shop.name=FSMM Shop Block
 ui.fsmmshop.shop_name.admin=Admin Shop
 ui.fsmmshop.shop_name.new=New Shop
 ui.fsmmshop.shop_name.owned=%s's Shop
