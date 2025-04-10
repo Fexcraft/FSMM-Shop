@@ -1,23 +1,12 @@
 package net.fexcraft.mod.fsmmshop.ui;
 
 import net.fexcraft.app.json.JsonMap;
-import net.fexcraft.lib.common.utils.Formatter;
-import net.fexcraft.lib.mc.gui.GenericGui;
 import net.fexcraft.mod.fsmm.util.Config;
-import net.fexcraft.mod.uni.EnvInfo;
 import net.fexcraft.mod.uni.tag.TagCW;
 import net.fexcraft.mod.uni.ui.ContainerInterface;
 import net.fexcraft.mod.uni.ui.UIButton;
 import net.fexcraft.mod.uni.ui.UserInterface;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.List;
-import java.util.Locale;
 
 import static net.fexcraft.mod.uni.ui.ContainerInterface.SEND_TO_SERVER;
 
