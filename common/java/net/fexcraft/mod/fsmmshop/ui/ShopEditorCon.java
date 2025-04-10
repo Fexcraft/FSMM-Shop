@@ -2,7 +2,6 @@ package net.fexcraft.mod.fsmmshop.ui;
 
 import net.fexcraft.app.json.JsonMap;
 import net.fexcraft.lib.common.math.V3I;
-import net.fexcraft.mod.fcl.FCL;
 import net.fexcraft.mod.fsmmshop.FSMMShop;
 import net.fexcraft.mod.fsmmshop.Shop;
 import net.fexcraft.mod.uni.UniEntity;
