@@ -1,5 +1,6 @@
 package net.fexcraft.mod.fsmmshop;
 
+import net.fexcraft.mod.fsmm.data.PlayerAccData;
 import net.fexcraft.mod.uni.UniEntity;
 import net.fexcraft.mod.uni.world.EntityW;
 import net.fexcraft.mod.uni.world.WrapperHolder;
@@ -46,7 +47,8 @@ public class ShopBlock extends Block implements EntityBlock {
             ShopEntity tile = (ShopEntity)level.getBlockEntity(pos);
             boolean sp = WrapperHolder.isSinglePlayer();
             EntityW ply = UniEntity.getEntity(player);
-            if(player.isShiftKeyDown() && (tile.shop.owner == null || tile.shop.owner.equals(player.getGameProfile().getId()))){
+            PlayerAccData data = UniEntity.get(player).getApp(PlayerAccData.class);
+            if(player.isShiftKeyDown() && (tile.shop.owner == null || tile.shop.isOwner(data))){
                 ply.openUI(FSUI.SHOP_EDITOR, pos.getX(), pos.getY(), pos.getZ());
             }
             else if(player.isShiftKeyDown() && player.isCreative() && (sp || WrapperHolder.isOp(ply))){
