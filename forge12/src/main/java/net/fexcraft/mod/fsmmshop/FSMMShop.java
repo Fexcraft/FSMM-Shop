@@ -45,9 +45,6 @@ public class FSMMShop {
 	@EventHandler
     public void preInit(FMLPreInitializationEvent event) throws InstantiationException, IllegalAccessException {
         new FCLRegistry.AutoRegisterer("fsmmshop");
-        if(event.getSide().isClient()){
-            FCLBlockModelLoader.addBlockModel(new ResourceLocation("fsmmshop:models/block/shop"), ((Class<FCLBlockModel>)FCLRegistry.getModel("fsmmshop:models/block/shop")).newInstance());
-        }
         CONFIG = new FSConfig(new File(event.getSuggestedConfigurationFile().getParentFile(), "fsmm-shop.json"));
         UniReg.registerMod("fsmmshop", this);
         FSUI.register();
