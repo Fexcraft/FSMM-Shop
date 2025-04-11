@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ShopModel {
 
     protected static final ArrayList<ArrayList<ModelRendererTurbo>> groups = new ArrayList<>();
+    public static final ShopModel MODEL = new ShopModel();
     public static ModelRendererTurbo top;
     public static ModelRendererTurbo bot;
 
