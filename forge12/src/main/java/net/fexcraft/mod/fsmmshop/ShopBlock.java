@@ -104,7 +104,7 @@ public class ShopBlock extends BlockContainer {
 
     @Override
     protected BlockStateContainer createBlockState(){
-        return new BlockStateContainer(this, new IProperty[] {FACING});
+        return new BlockStateContainer(this, FACING);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class ShopBlock extends BlockContainer {
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state){
-        return EnumBlockRenderType.MODEL;
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
