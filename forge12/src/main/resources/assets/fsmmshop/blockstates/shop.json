@@ -1,27 +1,9 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "fsmmshop:shop",
-        "transform": "forge:default-block",
-        "custom": {
-            "t-x": 0.5,
-            "t-z": 0.5
-        }
-    },
     "variants": {
-        "facing": {
-            "north": {
-                "custom": { "y": 0 }
-            },
-            "south": {
-                "custom": { "y": 180 }
-            },
-            "west": {
-                "custom": { "y": -90 }
-            },
-            "east": {
-                "custom": { "y": 90 }
-            }
-        }
+        "normal": { "model": "minecraft:air" },
+        "facing=north": { "model": "minecraft:air" },
+        "facing=south": { "model": "minecraft:air", "y": 180 },
+        "facing=west":  { "model": "minecraft:air", "y": 270 },
+        "facing=east":  { "model": "minecraft:air", "y": 90 }
     }
 }
