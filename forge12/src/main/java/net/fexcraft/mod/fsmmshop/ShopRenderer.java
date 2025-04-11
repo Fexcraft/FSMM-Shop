@@ -1,6 +1,7 @@
 package net.fexcraft.mod.fsmmshop;
 
 import net.fexcraft.lib.common.math.RGB;
+import net.fexcraft.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.fsmm.util.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -9,6 +10,10 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.ArrayList;
+
+import static net.fexcraft.mod.fsmmshop.ShopModel.MODEL;
 
 /**
  * @author Ferdinand Calo' (FEX___96)
@@ -34,6 +39,11 @@ public class ShopRenderer extends TileEntitySpecialRenderer<ShopEntity> {
         GL11.glRotatef(this.rot[tile.getBlockMetadata()], 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
         mc.renderEngine.bindTexture(texture);
+        for(ArrayList<ModelRendererTurbo> group : MODEL.groups){
+            for(ModelRendererTurbo turbo : group){
+                turbo.render();
+            }
+        }
         (tile.shop.sell ? buy : sell).glColorApply();
         ShopModel.top.render();
         (tile.shop.admin ? adm : norm).glColorApply();
