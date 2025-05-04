@@ -2,8 +2,9 @@ package net.fexcraft.mod.fsmmshop;
 
 import net.fexcraft.lib.common.math.V3I;
 import net.fexcraft.mod.fcl.FCL;
-import net.fexcraft.mod.fcl.util.TagPacket;
+import net.fexcraft.mod.fcl.UniFCL;
 import net.fexcraft.mod.uni.UniReg;
+import net.fexcraft.mod.uni.packet.PacketTag;
 import net.fexcraft.mod.uni.tag.TagCW;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -47,7 +48,7 @@ public class FSMMShop {
 		BLKENT.register(FMLJavaModLoadingContext.get().getModEventBus());
 		UniReg.registerMod(MODID, this);
 		FSUI.register();
-		FCL.addListener(MODID, true, (com, player) -> {
+		UniFCL.regTagPacketListener(MODID, true, (com, player) -> {
 			getShopAt(player.getWorld().local(), com.getV3I("pos")).read(com);
 		});
 	}
@@ -63,7 +64,7 @@ public class FSMMShop {
 		com.set("pos", vec);
 		shop.write(com);
 		LevelChunk chunk = level.getChunkAt(pos);
-		FCL.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> chunk), new TagPacket(MODID, com));
+		FCL.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> chunk), new PacketTag().fill(MODID, com));
 	}
 
 }
