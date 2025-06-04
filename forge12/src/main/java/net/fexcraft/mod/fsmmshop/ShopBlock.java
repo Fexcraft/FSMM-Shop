@@ -6,11 +6,10 @@ import net.fexcraft.lib.mc.api.registry.fBlock;
 import net.fexcraft.lib.mc.utils.Static;
 import net.fexcraft.mod.fsmm.FSMM;
 import net.fexcraft.mod.fsmm.data.PlayerAccData;
-import net.fexcraft.mod.fsmm.local.MoneyItem;
 import net.fexcraft.mod.uni.UniEntity;
+import net.fexcraft.mod.uni.world.WrapperHolder;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -67,7 +66,7 @@ public class ShopBlock extends BlockContainer {
             if(player.isSneaking() && (tile.shop.owner == null || tile.shop.isOwner(data))){
                 player.openGui(FSMMShop.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
             }
-            else if(player.isSneaking() && player.capabilities.isCreativeMode && (sp || Static.isOp(player))){
+            else if(player.isSneaking() && player.capabilities.isCreativeMode && (sp || WrapperHolder.isOp(UniEntity.getEntity(player)))){
                 player.openGui(FSMMShop.INSTANCE, 0, world, pos.getX(), pos.getY(), pos.getZ());
             }
             else{
