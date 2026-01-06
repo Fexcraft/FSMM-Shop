@@ -96,7 +96,7 @@ public class Shop {
 
 	public Account account(){
 		if(owner == null || admin) return null;
-		return DataManager.getAccount(owner, true);
+		return DataManager.getAccount(owner, 2);
 	}
 
 	public boolean isOwner(PlayerAccData data){
