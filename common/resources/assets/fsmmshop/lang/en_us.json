@@ -1,4 +1,5 @@
 {
+    "block.fsmmshop.shop": "FSMM Shop Block",
     "fsmmshop.max-use-balance-msg": "\u00A7eYour balance is too high to use admin shops.",
     "ui.fsmmshop.shop_name.admin": "Admin Shop",
     "ui.fsmmshop.shop_name.new": "New Shop",
