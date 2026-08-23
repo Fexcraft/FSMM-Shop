@@ -23,7 +23,8 @@ public class Shop {
 	public boolean sell;
 	public long price;
 
-	public void write(TagCW com){
+	public void write(TagCW save){
+		TagCW com = TagCW.create();
 		if(!stack.empty()){
 			TagCW tag = TagCW.create();
 			stack.save(tag);
@@ -43,9 +44,12 @@ public class Shop {
 		com.set("stacks", list);
 		com.set("price", price);
 		com.set("sell", sell);
+		save.set("FsmmShop", com);
 	}
 
-	public void read(TagCW com){
+	public void read(TagCW save){
+		TagCW com = save.getCompound("FsmmShop");
+		if(com == null || com.direct() == null) com = save;
 		stack = com.has("stack") ? UniStack.STACK_GETTER.apply(com.getCompound("stack")) : StackWrapper.EMPTY;
 		if(com.has("owner")){
 			owner = com.getString("owner");
