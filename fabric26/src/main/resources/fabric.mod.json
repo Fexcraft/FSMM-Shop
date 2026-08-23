@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "fsmmshop",
+	"version": "${version}",
+	"name": "FSMM Shop Block",
+	"description": "FSMM Shop Block",
+	"authors": [
+		"FEX___96"
+	],
+	"contact": {
+		"homepage": "https://fexcraft.net/",
+		"sources": "https://github.com/Fexcraft/FSMM-Shop"
+	},
+	"license": "ARR",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.fexcraft.mod.fsmmshop.FSMMShop"
+		],
+		"client": [
+			"net.fexcraft.mod.fsmmshop.FSMMShopC"
+		]
+	},
+	"mixins": [
+		"fsmmshop.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.1",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"accessWidener" : "fsmmshop.accesswidener"
+}
