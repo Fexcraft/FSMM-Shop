@@ -48,6 +48,10 @@ public class FSMMShop {
         CONFIG = new FSConfig(new File(event.getSuggestedConfigurationFile().getParentFile(), "fsmm-shop.json"));
         UniReg.registerMod("fsmmshop", this);
         FSUI.register();
+        //
+        Ingredient ingot = Ingredient.fromStacks(new ItemStack(Items.IRON_INGOT));
+        Ingredient glass = Ingredient.fromStacks(new ItemStack(Blocks.GLASS));
+        RecipeRegistry.addShapedRecipe("fsmmshop:shop", null, new ItemStack(FCLRegistry.getItem("fsmmshop:shop")), 3, 3, Ingredient.EMPTY, ingot, Ingredient.EMPTY, ingot, glass, ingot, ingot, ingot, ingot);
     }
 
     @EventHandler
@@ -55,10 +59,6 @@ public class FSMMShop {
         if(event.getSide().isClient()) regtileren();
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
         FSMMSubCommand.register("shop", new ShopSubCmd());
-        //
-        Ingredient ingot = Ingredient.fromStacks(new ItemStack[]{new ItemStack(Items.IRON_INGOT)});
-        Ingredient glass = Ingredient.fromStacks(new ItemStack[]{new ItemStack(Blocks.GLASS)});
-        RecipeRegistry.addShapedRecipe("fsmmshop:shop", null, new ItemStack((Block) ShopBlock.INST), 3, 3, new Ingredient[]{Ingredient.EMPTY, ingot, Ingredient.EMPTY, ingot, glass, ingot, ingot, ingot, ingot});
     }
 
     @SideOnly(Side.CLIENT)
