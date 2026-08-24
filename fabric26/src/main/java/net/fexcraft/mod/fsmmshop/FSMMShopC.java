@@ -12,7 +12,7 @@ public class FSMMShopC implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient(){
-		BlockEntityRenderers.register(SHOP_ENT, context -> new ShopRenderer());
+		BlockEntityRenderers.register(SHOP_ENT, ShopRenderer::new);
 	}
 
 }
