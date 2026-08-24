@@ -18,7 +18,7 @@ public class ShopEditorCon extends ContainerInterface {
 
 	public ShopEditorCon(JsonMap map, UniEntity ply, V3I pos){
 		super(map, ply, pos);
-		shop = FSMMShop.getShopAt(ply.entity.getWorld().local(), pos);
+		shop = FSMMShop.getShopAt(ply.entity.getWorld(), pos);
 		inventory = shop.inventory;
 	}
 
@@ -63,7 +63,7 @@ public class ShopEditorCon extends ContainerInterface {
 	}
 
 	private void sendUpdate(){
-		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
+		FSMMShop.updateShop(player.entity.getWorld(), pos);
 	}
 
 }
