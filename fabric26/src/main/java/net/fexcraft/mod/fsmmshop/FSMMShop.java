@@ -12,6 +12,7 @@ import net.fexcraft.mod.fcl.util.PacketTag21;
 import net.fexcraft.mod.uni.UniReg;
 import net.fexcraft.mod.uni.packet.PacketTag;
 import net.fexcraft.mod.uni.tag.TagCW;
+import net.fexcraft.mod.uni.world.WorldW;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,20 +42,20 @@ public class FSMMShop implements ModInitializer {
 		UniReg.registerMod(MODID, this);
 		FSUI.register();
 		UniFCL.regTagPacketListener(MODID, true, (com, player) -> {
-			getShopAt(player.getWorld().local(), com.getV3I("pos")).read(com);
+			getShopAt(player.getWorld(), com.getV3I("pos")).read(com);
 		});
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
 			content.accept(new ItemStack(ShopBlock.INST), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
 		});
 	}
 
-	public static Shop getShopAt(Level level, V3I pos){
-		return ((ShopEntity)level.getBlockEntity(new BlockPos(pos.x, pos.y, pos.z))).shop;
+	public static Shop getShopAt(WorldW level, V3I pos){
+		return ((ShopEntity)level.getBlockEntity(pos)).shop;
 	}
 
-	public static void updateShop(Level level, V3I vec){
-		BlockPos pos = new BlockPos(vec.x, vec.y, vec.z);
-		Shop shop = ((ShopEntity)level.getBlockEntity(pos)).shop;
+	public static void updateShop(WorldW level, V3I vec){
+		level.markChanged(vec);
+		Shop shop = ((ShopEntity)level.getBlockEntity(vec)).shop;
 		TagCW com = TagCW.create();
 		com.set("pos", vec);
 		shop.write(com);
