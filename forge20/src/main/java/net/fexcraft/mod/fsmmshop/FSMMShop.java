@@ -6,6 +6,7 @@ import net.fexcraft.mod.fcl.UniFCL;
 import net.fexcraft.mod.uni.UniReg;
 import net.fexcraft.mod.uni.packet.PacketTag;
 import net.fexcraft.mod.uni.tag.TagCW;
+import net.fexcraft.mod.uni.world.WorldW;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.*;
@@ -49,21 +50,21 @@ public class FSMMShop {
 		UniReg.registerMod(MODID, this);
 		FSUI.register();
 		UniFCL.regTagPacketListener(MODID, true, (com, player) -> {
-			getShopAt(player.getWorld().local(), com.getV3I("pos")).read(com);
+			getShopAt(player.getWorld(), com.getV3I("pos")).read(com);
 		});
 	}
 
-	public static Shop getShopAt(Level level, V3I pos){
-		return ((ShopEntity)level.getBlockEntity(new BlockPos(pos.x, pos.y, pos.z))).shop;
+	public static Shop getShopAt(WorldW level, V3I pos){
+		return ((ShopEntity)level.getBlockEntity(pos)).shop;
 	}
 
-	public static void updateShop(Level level, V3I vec){
-		BlockPos pos = new BlockPos(vec.x, vec.y, vec.z);
-		Shop shop = ((ShopEntity)level.getBlockEntity(pos)).shop;
+	public static void updateShop(WorldW level, V3I vec){
+		level.markChanged(vec);
+		Shop shop = ((ShopEntity)level.getBlockEntity(vec)).shop;
 		TagCW com = TagCW.create();
 		com.set("pos", vec);
 		shop.write(com);
-		LevelChunk chunk = level.getChunkAt(pos);
+		LevelChunk chunk = ((Level)level.direct()).getChunkAt(new BlockPos(vec.x, vec.y, vec.z));
 		FCL.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> chunk), new PacketTag().fill(MODID, com));
 	}
 
