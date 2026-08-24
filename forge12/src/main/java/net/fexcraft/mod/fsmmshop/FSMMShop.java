@@ -8,6 +8,7 @@ import net.fexcraft.lib.mc.render.FCLBlockModelLoader;
 import net.fexcraft.mod.fsmm.util.FSMMSubCommand;
 import net.fexcraft.mod.uni.UniReg;
 import net.fexcraft.mod.uni.inv.UniInventory;
+import net.fexcraft.mod.uni.world.WorldW;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -66,12 +67,13 @@ public class FSMMShop {
         ClientRegistry.bindTileEntitySpecialRenderer(ShopEntity.class, new ShopRenderer());
     }
 
-    public static Shop getShopAt(World world, V3I pos){
-        return ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).shop;
+    public static Shop getShopAt(WorldW world, V3I pos){
+        return ((ShopEntity)world.getBlockEntity(pos)).shop;
     }
 
-    public static void updateShop(World world, V3I pos){
-        ((ShopEntity)world.getTileEntity(new BlockPos(pos.x, pos.y, pos.z))).updateClient();
+    public static void updateShop(WorldW world, V3I pos){
+        world.markChanged(pos);
+        ((ShopEntity)world.getBlockEntity(pos)).updateClient();
     }
 
 }
