@@ -25,9 +25,9 @@ public class ShopEntity extends BlockEntity {
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider prov){
-        CompoundTag tag = new CompoundTag();
-        shop.write(TagCW.create());
-        return tag;
+        TagCW tag = TagCW.create();
+        shop.write(tag);
+        return tag.local();
     }
 
     @Override
