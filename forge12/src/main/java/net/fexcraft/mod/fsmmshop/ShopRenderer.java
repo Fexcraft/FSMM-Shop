@@ -30,8 +30,7 @@ public class ShopRenderer extends TileEntitySpecialRenderer<ShopEntity> {
     private float s;
     private int w;
 
-    public void render(ShopEntity tile, double posX, double posY, double posZ, float ticks, int stage, float alpha) {
-        if(tile.shop.stack == null || tile.shop.stack.empty()) return;
+    public void render(ShopEntity tile, double posX, double posY, double posZ, float ticks, int stage, float alpha){
         if(mc == null) mc = Minecraft.getMinecraft();
         GL11.glPushMatrix();
         GL11.glTranslated(posX + 0.5D, posY, posZ + 0.5D);
@@ -44,20 +43,22 @@ public class ShopRenderer extends TileEntitySpecialRenderer<ShopEntity> {
                 turbo.render();
             }
         }
-        (tile.shop.sell ? buy : sell).glColorApply();
-        ShopModel.top.render();
-        (tile.shop.admin ? adm : norm).glColorApply();
-        ShopModel.bot.render();
-        GL11.glRotatef(-180.0F, 0.0F, 0.0F, 1.0F);
-        GL11.glTranslated(0.0D, 0.375D, 0.0D);
-        GL11.glRotatef(tile.rot += ticks, 0.0F, 1.0F, 0.0F);
-        mc.getItemRenderer().renderItem(mc.player, tile.shop.stack.local(), ItemCameraTransforms.TransformType.GROUND);
-        GL11.glRotatef(-tile.rot, 0.0F, 1.0F, 0.0F);
-        GL11.glTranslated(0.0D, -0.2D, 0.48D);
-        GL11.glRotatef(-180.0F, 0.0F, 1.0F, 0.0F);
-        drawString(Config.getWorthAsString(tile.shop.price, true, false));
-        GL11.glTranslated(0.0D, 0.75D, 0.0D);
-        drawString(tile.shop.sell ? "For Sale" : "Wanted");
+        if(tile.shop.stack != null && !tile.shop.stack.empty()){
+            (tile.shop.sell ? buy : sell).glColorApply();
+            ShopModel.top.render();
+            (tile.shop.admin ? adm : norm).glColorApply();
+            ShopModel.bot.render();
+            GL11.glRotatef(-180.0F, 0.0F, 0.0F, 1.0F);
+            GL11.glTranslated(0.0D, 0.375D, 0.0D);
+            GL11.glRotatef(tile.rot += ticks, 0.0F, 1.0F, 0.0F);
+            mc.getItemRenderer().renderItem(mc.player, tile.shop.stack.local(), ItemCameraTransforms.TransformType.GROUND);
+            GL11.glRotatef(-tile.rot, 0.0F, 1.0F, 0.0F);
+            GL11.glTranslated(0.0D, -0.2D, 0.48D);
+            GL11.glRotatef(-180.0F, 0.0F, 1.0F, 0.0F);
+            drawString(Config.getWorthAsString(tile.shop.price, true, false));
+            GL11.glTranslated(0.0D, 0.75D, 0.0D);
+            drawString(tile.shop.sell ? "For Sale" : "Wanted");
+        }
         GL11.glPopMatrix();
         GL11.glPopMatrix();
     }
