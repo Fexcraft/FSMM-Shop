@@ -30,7 +30,7 @@ public class ShopViewerCon extends ContainerInterface {
 
 	public ShopViewerCon(JsonMap map, UniEntity ply, V3I pos){
 		super(map, ply, pos);
-		shop = FSMMShop.getShopAt(ply.entity.getWorld().local(), pos);
+		shop = FSMMShop.getShopAt(ply.entity.getWorld(), pos);
 		shopacc = shop.account();
 		plyacc = ply.getApp(PlayerAccData.class).getAccount();
 	}
@@ -127,7 +127,7 @@ public class ShopViewerCon extends ContainerInterface {
 				}
 			}
 		}
-		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
+		FSMMShop.updateShop(player.entity.getWorld(), pos);
 		sendSync();
 	}
 
@@ -184,7 +184,7 @@ public class ShopViewerCon extends ContainerInterface {
 			}
 			shopacc.getBank().processAction(Bank.Action.TRANSFER, player.entity, shopacc, am * shop.price, plyacc);
 		}
-		FSMMShop.updateShop(player.entity.getWorld().local(), pos);
+		FSMMShop.updateShop(player.entity.getWorld(), pos);
 		sendSync();
 	}
 
