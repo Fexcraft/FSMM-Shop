@@ -39,7 +39,7 @@ public class FSMMShop {
 
     @Instance("fsmmshop")
     public static FSMMShop INSTANCE;
-    public static final String VERSION = "2.0";
+    public static final String VERSION = "2.1.0";
     //
     public static FSConfig CONFIG;
 
