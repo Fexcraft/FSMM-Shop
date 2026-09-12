@@ -3,9 +3,8 @@ package net.fexcraft.mod.fsmmshop;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fexcraft.lib.common.Static;
 import net.fexcraft.lib.common.math.RGB;
-import net.fexcraft.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.fcl.util.FCLRenderTypes;
-import net.fexcraft.mod.fcl.util.Renderer120;
+import net.fexcraft.mod.fcl.util.Renderer20;
 import net.fexcraft.mod.fsmm.util.Config;
 import net.fexcraft.mod.uni.IDL;
 import net.fexcraft.mod.uni.IDLManager;
@@ -14,14 +13,16 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.joml.Quaternionf;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 import static net.fexcraft.mod.fcl.local.CraftingBlock.FACING;
-import static net.fexcraft.mod.fcl.util.Renderer120.AY;
-import static net.fexcraft.mod.fcl.util.Renderer120.AZ;
+import static net.fexcraft.mod.fcl.util.Renderer20.AY;
+import static net.fexcraft.mod.fcl.util.Renderer20.AZ;
+import static net.fexcraft.mod.fsmmshop.ShopModel.MODEL;
 
 /**
  * @author Ferdinand Calo' (FEX___96)
@@ -29,7 +30,6 @@ import static net.fexcraft.mod.fcl.util.Renderer120.AZ;
 public class ShopRenderer implements BlockEntityRenderer<ShopEntity> {
 
 	public static final IDL TEXTURE = IDLManager.getIDLCached("fsmmshop:textures/block/shop.png");
-	private static ShopModel MODEL = new ShopModel();
 	private static RGB sell = new RGB(5887044), buy = new RGB(16539473);
 	private static RGB norm = RGB.WHITE.copy();
 	private static RGB adm = new RGB(15858708);
@@ -38,27 +38,35 @@ public class ShopRenderer implements BlockEntityRenderer<ShopEntity> {
 	private float s;
 	private int w;
 
+	public ShopRenderer(){
+		super();
+		ShopModel.init(() -> {
+			try{
+				return Minecraft.getInstance().getResourceManager().getResource(new ResourceLocation("fsmmshop:models/block/shop.bob")).get().open();
+			}
+			catch(IOException e){
+				throw new RuntimeException(e);
+			}
+		});
+	}
+
 	@Override
 	public void render(ShopEntity tile, float ticks, PoseStack pose, MultiBufferSource buffer, int light, int overlay){
-		Renderer120.pose = pose;
-		Renderer120.set(pose, buffer, light, overlay);
+		Renderer20.pose = pose;
+		Renderer20.set(pose, buffer, light, overlay);
 		FCLRenderTypes.setCutout(TEXTURE);
 		pose.pushPose();
 		pose.translate(0.5, 0, 0.5);
 		Direction dir = tile.getBlockState().getValue(FACING);
 		pose.mulPose(new Quaternionf().rotateAxis(Static.toRadians(dir.getAxis() == Direction.Axis.Z ? dir.toYRot() : dir.toYRot() - 180), AY));
 		pose.mulPose(new Quaternionf().rotateAxis(Static.rad180, AZ));
-		for(ArrayList<ModelRendererTurbo> group : MODEL.groups){
-			for(ModelRendererTurbo turbo : group){
-				turbo.render();
-			}
-		}
+		MODEL.render();
 		if(tile.shop.stack != null && !tile.shop.stack.empty()){
-			Renderer120.setColor(tile.shop.sell ? buy : sell);
+			Renderer20.setColor(tile.shop.sell ? buy : sell);
 			ShopModel.top.render();
-			Renderer120.setColor(tile.shop.admin ? adm : norm);
+			Renderer20.setColor(tile.shop.admin ? adm : norm);
 			ShopModel.bot.render();
-			Renderer120.resetColor();
+			Renderer20.resetColor();
 			pose.mulPose(new Quaternionf().rotateAxis(-Static.rad180, AZ));
 			if(mc == null) mc = Minecraft.getInstance();
 			pose.translate(0, 0.375, 0);
