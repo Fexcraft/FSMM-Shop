@@ -3,9 +3,9 @@ package net.fexcraft.mod.fsmmshop;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fexcraft.lib.common.Static;
 import net.fexcraft.lib.common.math.RGB;
-import net.fexcraft.lib.tmt.ModelRendererTurbo;
 import net.fexcraft.mod.fcl.util.FCLRenderTypes;
-import net.fexcraft.mod.fcl.util.Renderer26MRT;
+import net.fexcraft.mod.fcl.util.FCLRenderUtil;
+import net.fexcraft.mod.fcl.util.Renderer26;
 import net.fexcraft.mod.fsmm.util.Config;
 import net.fexcraft.mod.uni.IDL;
 import net.fexcraft.mod.uni.IDLManager;
@@ -22,15 +22,16 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 import static net.fexcraft.mod.fcl.local.CraftingBlock.FACING;
-import static net.fexcraft.mod.fcl.util.Renderer26MRT.AY;
-import static net.fexcraft.mod.fcl.util.Renderer26MRT.AZ;
+import static net.fexcraft.mod.fcl.util.Renderer26.AY;
+import static net.fexcraft.mod.fcl.util.Renderer26.AZ;
 
 /**
  * @author Ferdinand Calo' (FEX___96)
@@ -49,6 +50,14 @@ public class ShopRenderer implements BlockEntityRenderer<ShopEntity, ShopRendere
 
 	public ShopRenderer(BlockEntityRendererProvider.Context context){
 		resolver = context.itemModelResolver();
+		ShopModel.init(() -> {
+			try{
+				return Minecraft.getInstance().getResourceManager().getResource(Identifier.parse("fsmmshop:models/block/shop.bob")).get().open();
+			}
+			catch(IOException e){
+				throw new RuntimeException(e);
+			}
+		});
 	}
 
 	@Override
@@ -72,18 +81,14 @@ public class ShopRenderer implements BlockEntityRenderer<ShopEntity, ShopRendere
 		Direction dir = state.blockState.getValue(FACING);
 		pose.mulPose(new Quaternionf().rotateAxis(Static.toRadians(dir.getAxis() == Direction.Axis.Z ? dir.toYRot() : dir.toYRot() - 180), AY));
 		pose.mulPose(new Quaternionf().rotateAxis(Static.rad180, AZ));
-		Renderer26MRT.set(pose, FCLRenderTypes.getCutout(TEXTURE), nodecoll, state.lightCoords);
-		for(ArrayList<ModelRendererTurbo> group : MODEL.groups){
-			for(ModelRendererTurbo turbo : group){
-				turbo.render();
-			}
-		}
+		FCLRenderUtil.set(pose, nodecoll, FCLRenderTypes.getCutout(TEXTURE), state.lightCoords);
+		FCLRenderUtil.render(ShopModel.MODEL);
 		if(state.shop.stack != null && !state.shop.stack.empty()){
-			Renderer26MRT.setColor(state.shop.sell ? buy : sell);
-			ShopModel.top.render();
-			Renderer26MRT.setColor(state.shop.admin ? adm : norm);
-			ShopModel.bot.render();
-			Renderer26MRT.resetColor();
+			Renderer26.setColor(state.shop.sell ? buy : sell);
+			FCLRenderUtil.render(ShopModel.top);
+			Renderer26.setColor(state.shop.admin ? adm : norm);
+			FCLRenderUtil.render(ShopModel.bot);
+			Renderer26.resetColor();
 			pose.mulPose(new Quaternionf().rotateAxis(-Static.rad180, AZ));
 			if(mc == null) mc = Minecraft.getInstance();
 			pose.translate(0, 0.375, 0);
